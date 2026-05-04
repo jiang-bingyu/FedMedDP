@@ -1,0 +1,44 @@
+seed: 2026
+
+dataset:
+  root: data/ham10000_binary
+  image_size: 224
+  batch_size: 128
+  num_workers: 4
+  num_clients: 5
+  dirichlet_alpha: 1.0
+  val_ratio: 0.1
+  test_ratio: 0.1
+  min_samples_per_client: 20
+
+model:
+  backbone: resnet18
+  num_classes: 2
+  dropout: 0.2
+  pretrained: true
+
+federated:
+  rounds: 40
+  client_fraction: 1.0
+  local_epochs: 1
+  optimizer: adam
+  lr: 0.0001
+  weight_decay: 0.0001
+  use_class_weights: true
+  label_smoothing: 0.05
+
+privacy:
+  enabled: true
+  mechanism: hybrid
+  clip_norm: 5.0
+  noise_multiplier: 0.06
+  laplace_scale: 0.015
+  hybrid_alpha: 0.7
+  delta: 0.00001
+
+output:
+  dir: outputs
+  experiment_name: ham10000_hybrid_noise_high
+
+runtime:
+  device: auto

@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Local environment and secrets
+.env
+.env.*
+*.pem
+*.key
+*.crt
+*.p12
+credentials/
+secrets/
+
+# Local IDE / assistant settings
+.vscode/
+.idea/
+.claude/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Large datasets
+data/raw_ham10000/
+data/ham10000_binary/train/
+data/ham10000_binary/val/
+data/ham10000_binary/test/
+
+# Generated demo data
+data/demo_medical/
+
+# Large model checkpoints
+outputs/**/final_model.pt
+
+# Temporary notebooks and logs
+.ipynb_checkpoints/
+*.log

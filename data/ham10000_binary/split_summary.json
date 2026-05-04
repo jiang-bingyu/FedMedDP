@@ -1,0 +1,33 @@
+{
+  "group_field": "lesion_id",
+  "seed": 2026,
+  "val_ratio": 0.1,
+  "test_ratio": 0.1,
+  "note": "HAM10000 原始元数据未提供显式 patient_id；本脚本使用 lesion_id 进行病灶级隔离划分，确保同一 lesion 的所有图像只出现在 train/val/test 之一中，防止数据泄露。",
+  "splits": {
+    "train": {
+      "images": 8025,
+      "groups": 5976,
+      "class_counts": {
+        "benign": 6461,
+        "malignant": 1564
+      }
+    },
+    "val": {
+      "images": 993,
+      "groups": 747,
+      "class_counts": {
+        "benign": 804,
+        "malignant": 189
+      }
+    },
+    "test": {
+      "images": 997,
+      "groups": 747,
+      "class_counts": {
+        "benign": 796,
+        "malignant": 201
+      }
+    }
+  }
+}

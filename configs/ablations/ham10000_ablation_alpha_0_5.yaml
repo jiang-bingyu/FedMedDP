@@ -1,0 +1,43 @@
+seed: 2026
+dataset:
+  root: data/ham10000_binary
+  image_size: 224
+  batch_size: 128
+  num_workers: 4
+  num_clients: 5
+  dirichlet_alpha: 0.5
+  val_ratio: 0.1
+  test_ratio: 0.1
+  min_samples_per_client: 20
+model:
+  backbone: resnet18
+  num_classes: 2
+  dropout: 0.2
+  pretrained: true
+federated:
+  rounds: 40
+  client_fraction: 1.0
+  local_epochs: 1
+  optimizer: adam
+  lr: 0.0001
+  weight_decay: 0.0001
+  use_class_weights: true
+  label_smoothing: 0.05
+privacy:
+  enabled: true
+  mechanism: hybrid
+  clip_norm: 5.0
+  noise_multiplier: 0.03
+  laplace_scale: 0.008
+  hybrid_alpha: 0.7
+  adaptive_hybrid: true
+  hybrid_global_decay: 0.5
+  hybrid_min_gaussian_weight: 0.1
+  hybrid_gradient_adaptive: true
+  hybrid_gradient_sensitivity_scale: 0.02
+  delta: 1.0e-05
+output:
+  dir: outputs
+  experiment_name: ham10000_ablation_alpha_0_5
+runtime:
+  device: auto

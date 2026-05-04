@@ -1,0 +1,42 @@
+{
+  "dataset_root": "data/ham10000_binary",
+  "total_images": 10015,
+  "counts": {
+    "train": {
+      "total": 8025,
+      "class_counts": {
+        "benign": 6461,
+        "malignant": 1564
+      },
+      "malignant_ratio": 0.19489096573208722
+    },
+    "val": {
+      "total": 993,
+      "class_counts": {
+        "benign": 804,
+        "malignant": 189
+      },
+      "malignant_ratio": 0.1903323262839879
+    },
+    "test": {
+      "total": 997,
+      "class_counts": {
+        "benign": 796,
+        "malignant": 201
+      },
+      "malignant_ratio": 0.20160481444332998
+    }
+  },
+  "unreadable_images": [],
+  "cross_split_filename_overlap_count": 0,
+  "cross_split_filename_overlap_examples": [],
+  "cross_split_hash_overlap_count": 0,
+  "cross_split_hash_overlap_examples": [],
+  "manifest_audit": {
+    "available": true,
+    "group_column": "lesion_id",
+    "leakage_count": 0,
+    "leaked_group_examples": []
+  },
+  "note": "该报告用于训练前质量控制和论文可复现性说明。正式测试指标必须在完整测试集上报告，不得根据测试结果事后剔除样本。"
+}

@@ -1,0 +1,38 @@
+[
+  {
+    "experiment_name": "ham10000_nodp",
+    "mechanism": "none",
+    "privacy_enabled": false,
+    "attack_accuracy": 0.5100286532951289,
+    "attack_auc": 0.5178241557951083,
+    "member_samples": 997,
+    "attack_interpretation": "越接近 0.50 表示成员推断攻击越接近随机猜测，隐私防护越强。"
+  },
+  {
+    "experiment_name": "ham10000_gaussian",
+    "mechanism": "gaussian",
+    "privacy_enabled": true,
+    "attack_accuracy": 0.5343839541547278,
+    "attack_auc": 0.5615799541875682,
+    "member_samples": 997,
+    "attack_interpretation": "越接近 0.50 表示成员推断攻击越接近随机猜测，隐私防护越强。"
+  },
+  {
+    "experiment_name": "ham10000_hybrid",
+    "mechanism": "hybrid",
+    "privacy_enabled": true,
+    "attack_accuracy": 0.5,
+    "attack_auc": 0.5103857932200885,
+    "member_samples": 997,
+    "attack_interpretation": "越接近 0.50 表示成员推断攻击越接近随机猜测，隐私防护越强。"
+  },
+  {
+    "experiment_name": "ham10000_hybrid_adaptive",
+    "mechanism": "hybrid",
+    "privacy_enabled": true,
+    "attack_accuracy": 0.5372492836676218,
+    "attack_auc": 0.5466827037544848,
+    "member_samples": 997,
+    "attack_interpretation": "越接近 0.50 表示成员推断攻击越接近随机猜测，隐私防护越强。"
+  }
+]

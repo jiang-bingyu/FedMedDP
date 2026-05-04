@@ -1,0 +1,41 @@
+seed: 42
+
+dataset:
+  root: data/demo_medical
+  image_size: 64
+  batch_size: 16
+  num_workers: 0
+  num_clients: 4
+  dirichlet_alpha: 0.6
+  val_ratio: 0.15
+  test_ratio: 0.15
+  min_samples_per_client: 12
+
+model:
+  backbone: simple_cnn
+  num_classes: 2
+  dropout: 0.2
+
+federated:
+  rounds: 3
+  client_fraction: 0.75
+  local_epochs: 1
+  optimizer: adam
+  lr: 0.001
+  weight_decay: 0.0001
+
+privacy:
+  enabled: true
+  mechanism: hybrid
+  clip_norm: 1.0
+  noise_multiplier: 0.08
+  laplace_scale: 0.02
+  hybrid_alpha: 0.7
+  delta: 0.00001
+
+output:
+  dir: outputs
+  experiment_name: demo_experiment
+
+runtime:
+  device: auto
