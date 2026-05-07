@@ -33,13 +33,17 @@ GROUPS = {
         "configs/ham10000_highacc_convnext.yaml",
         "configs/ham10000_literature_target.yaml",
     ],
+    "accuracy90": [
+        "configs/ham10000_accuracy90.yaml",
+        "configs/ham10000_accuracy90_efficientnet_b4.yaml",
+    ],
 }
 
 
 def resolve_group(group: str) -> list[Path]:
     if group == "all":
         ordered: list[str] = []
-        for key in ("main", "noise_ablation", "noniid_ablation", "highacc"):
+        for key in ("main", "noise_ablation", "noniid_ablation", "highacc", "accuracy90"):
             ordered.extend(GROUPS[key])
         seen: set[str] = set()
         unique = []
@@ -61,7 +65,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="批量运行正式毕设实验。")
     parser.add_argument(
         "--group",
-        choices=["main", "noise_ablation", "noniid_ablation", "highacc", "all"],
+        choices=["main", "noise_ablation", "noniid_ablation", "highacc", "accuracy90", "all"],
         default="main",
         help="要运行的实验组。",
     )

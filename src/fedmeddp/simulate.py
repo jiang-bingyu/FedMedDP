@@ -15,7 +15,6 @@ import torch
 
 from .client import (
     collect_predictions,
-    evaluate_model,
     evaluate_predictions,
     prepare_model_for_runtime,
     run_client_update,
@@ -143,6 +142,16 @@ def select_best_validation_row(history: pd.DataFrame) -> pd.Series:
     ).iloc[0]
 
 
+def early_stopping_score(record: dict[str, float | int | str], metric_name: str) -> float:
+    metric_key = metric_name.strip().lower()
+    if metric_key in {"", "accuracy"}:
+        metric_key = "val_accuracy"
+    value = record.get(metric_key)
+    if value is None:
+        raise KeyError(f"early_stopping_metric 不存在：{metric_name}")
+    return float(value)
+
+
 def save_curves(
     history: pd.DataFrame,
     output_dir: Path,
@@ -263,6 +272,13 @@ def run_simulation(config_path: str | Path) -> Path:
     model_size_bytes = state_dict_size_bytes(global_state)
 
     history: list[dict[str, float | int | str]] = []
+    best_checkpoint: dict[str, object] | None = None
+    best_checkpoint_key: tuple[float, float, float, int] | None = None
+    early_stop_best_score = float("-inf")
+    early_stop_best_round = 0
+    early_stop_wait = 0
+    stopped_early = False
+    stop_round: int | None = None
 
     print(f"正在运行实验：{cfg.output.experiment_name}")
     print(f"运行设备：{device}")
@@ -317,12 +333,17 @@ def run_simulation(config_path: str | Path) -> Path:
             num_classes=num_classes,
             threshold=decision_threshold if num_classes == 2 else None,
         )
-        test_metrics = evaluate_model(
-            global_model,
-            test_loader,
+        test_loss, test_targets, test_scores = collect_predictions(
+            model=global_model,
+            loader=test_loader,
             device=device,
-            num_classes=num_classes,
             cfg=cfg,
+        )
+        test_metrics = evaluate_predictions(
+            loss=test_loss,
+            targets=test_targets,
+            scores=test_scores,
+            num_classes=num_classes,
             threshold=decision_threshold if num_classes == 2 else None,
         )
         round_time = time.time() - round_start
@@ -384,6 +405,23 @@ def run_simulation(config_path: str | Path) -> Path:
             "cumulative_communication_mb": cumulative_communication_bytes / (1024 ** 2),
         }
         history.append(record)
+        current_checkpoint_key = (
+            float(record["val_accuracy"]),
+            float(record["val_auc"]),
+            float(record["val_f1"]),
+            -round_index,
+        )
+        if best_checkpoint_key is None or current_checkpoint_key > best_checkpoint_key:
+            best_checkpoint_key = current_checkpoint_key
+            best_checkpoint = {
+                "round": round_index,
+                "decision_threshold": float(decision_threshold),
+                "state": clone_state_dict(global_state),
+                "val_targets": np.asarray(val_targets, dtype=np.int64),
+                "val_scores": val_scores.astype(np.float32, copy=True),
+                "test_targets": np.asarray(test_targets, dtype=np.int64),
+                "test_scores": test_scores.astype(np.float32, copy=True),
+            }
         epsilon_text = (
             f"{record['mean_epsilon']:.4f}"
             if pd.notna(record["mean_epsilon"])
@@ -398,10 +436,51 @@ def run_simulation(config_path: str | Path) -> Path:
             f"耗时={record['round_time_sec']:.2f}s"
         )
 
+        if cfg.federated.early_stopping:
+            score = early_stopping_score(record, cfg.federated.early_stopping_metric)
+            min_delta = max(float(cfg.federated.early_stopping_min_delta), 0.0)
+            if score > early_stop_best_score + min_delta:
+                early_stop_best_score = score
+                early_stop_best_round = round_index
+                early_stop_wait = 0
+            else:
+                early_stop_wait += 1
+            patience = max(int(cfg.federated.early_stopping_patience), 1)
+            if early_stop_wait >= patience:
+                stopped_early = True
+                stop_round = round_index
+                print(
+                    "Early stopping 触发："
+                    f"{cfg.federated.early_stopping_metric} 连续 {patience} 轮未提升，"
+                    f"最佳轮次={early_stop_best_round}。"
+                )
+                break
+
     history_df = pd.DataFrame(history)
     history_df.to_csv(output_dir / "history.csv", index=False)
     history_df.to_json(output_dir / "history.json", orient="records", indent=2)
     torch.save(global_state, output_dir / "final_model.pt")
+    best_model_path = output_dir / "best_model.pt"
+    val_predictions_path = output_dir / "val_predictions_best.npz"
+    test_predictions_path = output_dir / "test_predictions_best.npz"
+    if best_checkpoint is not None:
+        torch.save(best_checkpoint["state"], best_model_path)
+        np.savez_compressed(
+            val_predictions_path,
+            targets=best_checkpoint["val_targets"],
+            scores=best_checkpoint["val_scores"],
+            round=np.asarray([best_checkpoint["round"]], dtype=np.int64),
+            decision_threshold=np.asarray([best_checkpoint["decision_threshold"]], dtype=np.float32),
+            classes=np.asarray(bundle.class_names),
+        )
+        np.savez_compressed(
+            test_predictions_path,
+            targets=best_checkpoint["test_targets"],
+            scores=best_checkpoint["test_scores"],
+            round=np.asarray([best_checkpoint["round"]], dtype=np.int64),
+            decision_threshold=np.asarray([best_checkpoint["decision_threshold"]], dtype=np.float32),
+            classes=np.asarray(bundle.class_names),
+        )
     save_curves(
         history=history_df,
         output_dir=output_dir,
@@ -418,7 +497,14 @@ def run_simulation(config_path: str | Path) -> Path:
         "output_dir": str(output_dir),
         "seed": int(cfg.seed),
         "classes": bundle.class_names,
-        "rounds": int(cfg.federated.rounds),
+        "rounds": int(len(history_df)),
+        "configured_rounds": int(cfg.federated.rounds),
+        "early_stopping": bool(cfg.federated.early_stopping),
+        "early_stopping_metric": cfg.federated.early_stopping_metric,
+        "early_stopping_patience": int(cfg.federated.early_stopping_patience),
+        "early_stopping_min_delta": float(cfg.federated.early_stopping_min_delta),
+        "stopped_early": bool(stopped_early),
+        "stop_round": int(stop_round) if stop_round is not None else None,
         "batch_size": int(cfg.dataset.batch_size),
         "image_size": int(cfg.dataset.image_size),
         "backbone": cfg.model.backbone,
@@ -430,6 +516,9 @@ def run_simulation(config_path: str | Path) -> Path:
         "model_size_mb": float(model_size_bytes / (1024 ** 2)),
         "best_val_accuracy": float(history_df["val_accuracy"].max()),
         "best_val_round": int(best_val_row["round"]),
+        "best_model_path": str(best_model_path),
+        "val_predictions_best_path": str(val_predictions_path),
+        "test_predictions_best_path": str(test_predictions_path),
         "test_accuracy_at_best_val": float(best_val_row["test_accuracy"]),
         "test_f1_at_best_val": float(best_val_row["test_f1"]),
         "test_auc_at_best_val": float(best_val_row["test_auc"]),

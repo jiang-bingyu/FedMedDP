@@ -49,6 +49,10 @@ class FederatedConfig:
     focal_gamma: float = 2.0
     lr_scheduler: str = "none"
     min_lr: float = 1e-6
+    early_stopping: bool = False
+    early_stopping_metric: str = "val_accuracy"
+    early_stopping_patience: int = 20
+    early_stopping_min_delta: float = 0.0
 
 
 @dataclass

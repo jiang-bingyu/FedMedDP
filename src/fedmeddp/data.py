@@ -23,8 +23,24 @@ class DatasetBundle:
 def build_transforms(cfg: DatasetConfig, train: bool) -> transforms.Compose:
     image_size = int(cfg.image_size)
     strength = cfg.augmentation_strength.lower()
+    resize_margin = int(round(image_size * 1.08))
     if train:
-        if strength in {"strong", "highacc"}:
+        if strength in {"accuracy90", "dermoscopy"}:
+            ops = [
+                transforms.Resize((resize_margin, resize_margin)),
+                transforms.RandomResizedCrop(
+                    image_size,
+                    scale=(max(min(float(cfg.train_crop_scale), 0.98), 0.65), 1.0),
+                    ratio=(0.95, 1.05),
+                ),
+                transforms.RandomHorizontalFlip(p=0.5),
+                transforms.RandomVerticalFlip(p=0.5),
+                transforms.RandomRotation(degrees=30),
+                transforms.ColorJitter(brightness=0.14, contrast=0.18, saturation=0.10, hue=0.02),
+            ]
+            if hasattr(transforms, "RandomAutocontrast"):
+                ops.append(transforms.RandomAutocontrast(p=0.15))
+        elif strength in {"strong", "highacc"}:
             ops = [
                 transforms.RandomResizedCrop(
                     image_size,
@@ -46,7 +62,13 @@ def build_transforms(cfg: DatasetConfig, train: bool) -> transforms.Compose:
                 transforms.RandomRotation(degrees=12),
             ]
     else:
-        ops = [transforms.Resize((image_size, image_size))]
+        if strength in {"accuracy90", "dermoscopy"}:
+            ops = [
+                transforms.Resize((resize_margin, resize_margin)),
+                transforms.CenterCrop(image_size),
+            ]
+        else:
+            ops = [transforms.Resize((image_size, image_size))]
     ops.extend(
         [
             transforms.ToTensor(),
