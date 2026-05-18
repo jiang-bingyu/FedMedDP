@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FedMedDP 毕设演示台</title>
+  <title>融合差分隐私的联邦学习医疗影像协同诊断系统设计与实现</title>
   <style>
     :root {
       --bg: #f4efe8;
@@ -38,6 +38,13 @@
     }
 
     :target {
+      scroll-margin-top: 24px;
+    }
+
+    .anchor-target {
+      display: block;
+      height: 0;
+      visibility: hidden;
       scroll-margin-top: 24px;
     }
 
@@ -661,7 +668,7 @@
       <article class="card hero-copy">
         <div>
           <div class="eyebrow">差分隐私 × 联邦学习</div>
-          <h1>融合差分隐私的医疗影像协同诊断系统</h1>
+          <h1>融合差分隐私的联邦学习医疗影像协同诊断系统设计与实现</h1>
           <p class="lead">
             面向医疗数据孤岛场景，系统在不共享原始影像的前提下完成多客户端协同训练，
             通过裁剪与加噪保护本地更新，并展示模型性能与隐私预算之间的权衡关系。正式实验采用
@@ -673,7 +680,8 @@
 
     <section class="kpis" id="kpiGrid"></section>
 
-    <section class="section overview-grid" id="trend">
+    <span id="trend" class="anchor-target"></span>
+    <section class="section overview-grid">
       <article class="card chart-card">
         <div class="section-head">
           <div>
@@ -685,7 +693,8 @@
         <svg class="chart" id="metricChart" viewBox="0 0 760 390" preserveAspectRatio="xMidYMid meet"></svg>
       </article>
 
-      <article class="card architecture-card" id="architecture">
+      <span id="architecture" class="anchor-target"></span>
+      <article class="card architecture-card">
         <div class="section-head">
           <div>
             <div class="eyebrow">系统设计</div>
@@ -737,7 +746,8 @@
       </article>
     </section>
 
-    <section class="section section-grid-single" id="attack" hidden>
+    <span id="attack" class="anchor-target"></span>
+    <section class="section section-grid-single" id="attackSection" hidden>
       <article class="card compare-card">
         <div class="section-head">
           <div>
@@ -765,7 +775,8 @@
     </section>
 
     <section class="section experiment-comparison-grid">
-      <article class="card compare-card" id="main-experiments">
+      <span id="main-experiments" class="anchor-target"></span>
+      <article class="card compare-card">
         <div class="section-head">
           <div>
             <div class="eyebrow">主实验对比</div>
@@ -792,7 +803,8 @@
         </div>
       </article>
 
-      <article class="card compare-card" id="high-accuracy">
+      <span id="high-accuracy" class="anchor-target"></span>
+      <article class="card compare-card">
         <div class="section-head">
           <div>
             <div class="eyebrow">高精度补充实验</div>
@@ -819,7 +831,8 @@
         </div>
       </article>
 
-      <article class="card compare-card" id="ablation">
+      <span id="ablation" class="anchor-target"></span>
+      <article class="card compare-card">
         <div class="section-head">
           <div>
             <div class="eyebrow">消融实验分析</div>
@@ -847,7 +860,8 @@
       </article>
     </section>
 
-    <section class="section section-grid" id="samples">
+    <span id="samples" class="anchor-target"></span>
+    <section class="section section-grid">
       <article class="card gallery-card">
         <div class="section-head">
           <div>
@@ -1338,7 +1352,7 @@
     }
 
     function renderAttackResults(rows) {
-      const section = document.getElementById("attack");
+      const section = document.getElementById("attackSection");
       if (!rows.length) {
         section.hidden = true;
         return;

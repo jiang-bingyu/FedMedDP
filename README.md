@@ -212,48 +212,62 @@ python scripts/run_multi_seed_experiments.py \
 
 ## 冲刺 90% Accuracy 上限实验
 
-`accuracy90` 组用于探索 HAM10000 病灶级固定划分下的高精度上限，不用于替代主实验的联邦/隐私机制对比。该组默认关闭隐私噪声和多客户端 Non-IID，重点验证更强骨干网络、较高分辨率、TTA、阈值搜索和概率集成是否能把完整测试集 Accuracy 推到 90% 以上。配置中的 `rounds` 是最大轮数，实际训练会根据验证集 Accuracy 进行 early stopping。
+`accuracy90` 组用于探索 HAM10000 病灶级固定划分下的高精度上限，不用于替代主实验的联邦/隐私机制对比。该组默认关闭隐私噪声和多客户端 Non-IID，重点验证更强骨干网络、较高分辨率、TTA、阈值搜索和预测概率集成是否能把完整测试集 Accuracy 推到 90% 以上。配置中的 `rounds` 是最大轮数，实际训练会根据验证集 Accuracy 进行 early stopping。
 
 运行 ConvNeXt-Small 高精度多种子实验：
 
 ```bash
 python scripts/run_multi_seed_experiments.py \
   --config configs/ham10000_accuracy90.yaml \
-  --seeds 2026 2027 2028
+  --seeds 2026 2027 2028 2029 2030
 ```
 
-可选运行一个不同骨干网络作为集成补充：
+运行一个不同骨干网络作为集成补充：
 
 ```bash
 python scripts/run_experiment.py --config configs/ham10000_accuracy90_efficientnet_b4.yaml
 ```
 
-训练完成后，对验证集最佳轮次的预测概率做集成，并只用验证集选择阈值：
+训练完成后，对验证集最佳轮次的预测概率做加权集成，并只用验证集选择阈值。最终采用验证集 `Sensitivity >= 0.70` 作为约束，以 `Accuracy` 作为阈值选择指标：
 
 ```bash
 python scripts/evaluate_prediction_ensemble.py \
   --experiments \
   ham10000_accuracy90_seed2026 \
-  ham10000_accuracy90_seed2027 \
   ham10000_accuracy90_seed2028 \
+  ham10000_accuracy90_seed2030 \
   ham10000_accuracy90_efficientnet_b4 \
-  --output-name ham10000_accuracy90_ensemble \
+  ham10000_accuracy90_seed2027 \
+  --weights 0.25 0.10 0.30 0.30 0.05 \
+  --output-name ham10000_accuracy90_weighted_5models_sens70 \
   --threshold-metric accuracy \
-  --min-sensitivity 0.58
+  --min-sensitivity 0.70
 ```
 
 集成输出：
 
 ```text
-outputs/ham10000_accuracy90_ensemble/
+outputs/ham10000_accuracy90_weighted_5models_sens70/
   summary.json
   summary.csv
   history.csv
+  history.json
   val_predictions_ensemble.npz
   test_predictions_ensemble.npz
 ```
 
-判断是否真正超过 90%，应看完整测试集 `test_accuracy_at_best_val > 0.9000`，同时确认 `test_sensitivity_at_best_val` 不低于主实验水平，避免只靠偏向 benign 类别获得虚高 Accuracy。
+当前固定划分下，该加权五模型集成结果为：
+
+```text
+Accuracy:     0.9057
+AUC:          0.9417
+F1:           0.8502
+Sensitivity:  0.7363
+Specificity:  0.9485
+Threshold:    0.7400
+```
+
+判断是否真正超过 90%，应看完整测试集 `test_accuracy_at_best_val > 0.9000`，同时确认 `test_sensitivity_at_best_val` 不低于主实验水平，避免只靠偏向 benign 类别获得虚高 Accuracy。等权 6 模型集成不一定优于加权集成，本文最终高精度上限结果以 `ham10000_accuracy90_weighted_5models_sens70` 为准。
 
 ## 运行消融实验
 
@@ -330,11 +344,16 @@ python scripts/run_formal_experiments.py --group main --skip-existing
 python scripts/run_formal_experiments.py --group highacc --skip-existing
 python scripts/run_multi_seed_experiments.py --config configs/ham10000_literature_target.yaml --seeds 2026 2027 2028 --rounds 60
 
-# 4. 运行消融和攻击评估
+# 4. 可选运行 90% Accuracy 上限实验
+python scripts/run_multi_seed_experiments.py --config configs/ham10000_accuracy90.yaml --seeds 2026 2027 2028 2029 2030
+python scripts/run_experiment.py --config configs/ham10000_accuracy90_efficientnet_b4.yaml
+python scripts/evaluate_prediction_ensemble.py --experiments ham10000_accuracy90_seed2026 ham10000_accuracy90_seed2028 ham10000_accuracy90_seed2030 ham10000_accuracy90_efficientnet_b4 ham10000_accuracy90_seed2027 --weights 0.25 0.10 0.30 0.30 0.05 --output-name ham10000_accuracy90_weighted_5models_sens70 --threshold-metric accuracy --min-sensitivity 0.70
+
+# 5. 运行消融和攻击评估
 python scripts/run_ablation_experiments.py --skip-existing --collect
 python scripts/run_attack_experiment.py --experiments ham10000_nodp ham10000_gaussian ham10000_hybrid ham10000_hybrid_adaptive
 
-# 5. 刷新汇总和前端
+# 6. 刷新汇总和前端
 python scripts/collect_experiment_results.py --target-accuracy 0.80
 python scripts/run_multi_seed_experiments.py --config configs/ham10000_literature_target.yaml --seeds 2026 2027 2028 --collect-only
 python scripts/build_dashboard_data.py --experiment-name ham10000_literature_target

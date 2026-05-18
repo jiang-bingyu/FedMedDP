@@ -1,5 +1,6 @@
 experiment_name,mechanism,privacy_enabled,attack_accuracy,attack_auc,member_samples,attack_interpretation
 ham10000_nodp,none,False,0.5100286532951289,0.5178241557951083,997,越接近 0.50 表示成员推断攻击越接近随机猜测，隐私防护越强。
 ham10000_gaussian,gaussian,True,0.5343839541547278,0.5615799541875682,997,越接近 0.50 表示成员推断攻击越接近随机猜测，隐私防护越强。
+ham10000_laplace,laplace,True,0.5257879656160458,0.5690018965361532,997,越接近 0.50 表示成员推断攻击越接近随机猜测，隐私防护越强。
 ham10000_hybrid,hybrid,True,0.5,0.5103857932200885,997,越接近 0.50 表示成员推断攻击越接近随机猜测，隐私防护越强。
 ham10000_hybrid_adaptive,hybrid,True,0.5372492836676218,0.5466827037544848,997,越接近 0.50 表示成员推断攻击越接近随机猜测，隐私防护越强。

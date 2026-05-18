@@ -18,6 +18,15 @@
     "attack_interpretation": "越接近 0.50 表示成员推断攻击越接近随机猜测，隐私防护越强。"
   },
   {
+    "experiment_name": "ham10000_laplace",
+    "mechanism": "laplace",
+    "privacy_enabled": true,
+    "attack_accuracy": 0.5257879656160458,
+    "attack_auc": 0.5690018965361532,
+    "member_samples": 997,
+    "attack_interpretation": "越接近 0.50 表示成员推断攻击越接近随机猜测，隐私防护越强。"
+  },
+  {
     "experiment_name": "ham10000_hybrid",
     "mechanism": "hybrid",
     "privacy_enabled": true,
