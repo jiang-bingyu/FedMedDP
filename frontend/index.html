@@ -1484,11 +1484,11 @@
       ?? 0.90;
     const bestAccuracyRow = [...mainResults, ...highAccResults, ...ablationResults, summary]
       .filter(Boolean)
-      .sort((a, b) => selectedTestAccuracy(b) - selectedTestAccuracy(a))[0] || summary;
+      .sort((a, b) => metricSortValue(selectedTestAccuracy(b)) - metricSortValue(selectedTestAccuracy(a)))[0] || summary;
     const bestAccuracyValue = selectedTestAccuracy(bestAccuracyRow);
     const hasMetReferenceTarget = dataLoaded && bestAccuracyValue >= referenceBestAccuracy;
     const summaryHasMetReferenceTarget =
-      dataLoaded && (Boolean(summary.meets_reference_best_accuracy) || selectedTestAccuracy(summary) >= referenceBestAccuracy);
+      dataLoaded && (Boolean(summary.meets_reference_best_accuracy) || metricSortValue(selectedTestAccuracy(summary)) >= referenceBestAccuracy);
 
     const confidenceAccuracy = selectedConfidenceAccuracy(summary) ?? selectedConfidenceAccuracy(bestAccuracyRow);
     const sensitivity = selectedSensitivity(summary);
@@ -1720,12 +1720,32 @@
       return numeric === null ? "--" : `${numeric.toFixed(2)}s`;
     }
 
+    function formatRoundTime(row) {
+      const numeric = toFiniteNumber(row.avg_round_time_sec);
+      if (numeric !== null) {
+        return `${numeric.toFixed(2)}s`;
+      }
+      const mechanism = String(row.mechanism || "").toLowerCase();
+      if (mechanism === "ensemble" || Array.isArray(row.ensemble_members)) {
+        return "不适用";
+      }
+      return "--";
+    }
+
     function selectedTestAccuracy(row) {
-      return Number(row.test_accuracy_at_best_val_mean ?? row.test_accuracy_at_best_val ?? row.best_test_accuracy ?? 0);
+      return toFiniteNumber(row.test_accuracy_at_best_val_mean)
+        ?? toFiniteNumber(row.test_accuracy_at_best_val)
+        ?? toFiniteNumber(row.best_test_accuracy);
     }
 
     function selectedTestAuc(row) {
-      return Number(row.test_auc_at_best_val_mean ?? row.test_auc_at_best_val ?? row.final_test_auc ?? 0);
+      return toFiniteNumber(row.test_auc_at_best_val_mean)
+        ?? toFiniteNumber(row.test_auc_at_best_val)
+        ?? toFiniteNumber(row.final_test_auc);
+    }
+
+    function metricSortValue(value) {
+      return toFiniteNumber(value) ?? Number.NEGATIVE_INFINITY;
     }
 
     function selectedConfidenceAccuracy(row) {
@@ -2008,8 +2028,8 @@
       if (!container) {
         return;
       }
-      const bestMain = [...mainRows].sort((a, b) => selectedTestAccuracy(b) - selectedTestAccuracy(a))[0];
-      const bestHighAcc = [...highAccRows].sort((a, b) => selectedTestAccuracy(b) - selectedTestAccuracy(a))[0];
+      const bestMain = [...mainRows].sort((a, b) => metricSortValue(selectedTestAccuracy(b)) - metricSortValue(selectedTestAccuracy(a)))[0];
+      const bestHighAcc = [...highAccRows].sort((a, b) => metricSortValue(selectedTestAccuracy(b)) - metricSortValue(selectedTestAccuracy(a)))[0];
       const totalRows = mainRows.length + highAccRows.length + ablationRows.length;
       const summaryCards = [
         {
@@ -2022,7 +2042,7 @@
         },
         {
           label: "主实验最佳准确率",
-          value: bestMain ? formatPercent(selectedTestAccuracy(bestMain)) : "--"
+          value: bestMain ? formatMaybePercent(selectedTestAccuracy(bestMain)) : "--"
         },
         {
           label: "主实验最佳 AUC",
@@ -2030,7 +2050,7 @@
         },
         {
           label: "补充实验最佳",
-          value: bestHighAcc ? formatPercent(selectedTestAccuracy(bestHighAcc)) : "--"
+          value: bestHighAcc ? formatMaybePercent(selectedTestAccuracy(bestHighAcc)) : "--"
         }
       ];
 
@@ -2060,12 +2080,12 @@
         <tr>
           <td>${showStudyType ? shortExperimentLabel(row.experiment_name || "") : humanizeExperimentName(row.experiment_name || "")}</td>
           <td>${showStudyType ? inferAblationType(row.experiment_name || "") : formatMechanism(row.mechanism || "none")}</td>
-          <td>${formatPercent(selectedTestAccuracy(row))}</td>
+          <td>${formatMaybePercent(selectedTestAccuracy(row))}</td>
           <td>${formatMaybePercent(selectedConfidenceAccuracy(row))}</td>
           <td>${formatFloat(selectedTestAuc(row))}</td>
           <td>${formatStability(row)}</td>
           <td>${formatEpsilon(row)}</td>
-          <td>${formatSeconds(row.avg_round_time_sec)}</td>
+          <td>${formatRoundTime(row)}</td>
         </tr>
       `).join("");
     }
@@ -2448,12 +2468,17 @@
       const bars = rows.map((row, index) => {
         const centerX = padding.left + groupWidth * index + groupWidth / 2;
         const eps = finalEpsilon(row);
-        const metrics = [
-          { value: selectedTestAccuracy(row), color: accColor, y: yPercent(selectedTestAccuracy(row)) },
-          { value: selectedTestAuc(row), color: aucColor, y: yPercent(selectedTestAuc(row)) },
-        ];
+        const accuracy = selectedTestAccuracy(row);
+        const auc = selectedTestAuc(row);
+        const metrics = compactItems([
+          accuracy === null ? null : { value: accuracy, color: accColor, y: yPercent(accuracy) },
+          auc === null ? null : { value: auc, color: aucColor, y: yPercent(auc) },
+        ]);
         if (showEpsilon && eps !== null && eps > 0) {
           metrics.push({ value: eps / maxEps, color: epsColor, y: yEps(eps) });
+        }
+        if (!metrics.length) {
+          return svgMultilineLabel(shortExperimentLabel(row.experiment_name || ""), centerX, height - 72);
         }
         const barWidth = Math.min(42, (groupWidth - gap * (metrics.length - 1)) / Math.max(metrics.length + 1, 3));
         const totalBarWidth = metrics.length * barWidth + (metrics.length - 1) * gap;
