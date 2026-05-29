@@ -7,45 +7,34 @@
   <style>
     :root {
       --bg: #f4efe8;
-      --panel: rgba(255, 251, 246, 0.82);
+      --panel: rgba(255, 251, 246, 0.88);
       --panel-strong: #fffaf4;
       --text: #182126;
-      --muted: #5e6a71;
+      --muted: #414c52;
       --line: rgba(24, 33, 38, 0.08);
       --accent: #1e5d6d;
       --accent-soft: #d7e8ed;
       --warm: #b86a4a;
       --success: #2f7a5e;
-      --shadow: 0 20px 48px rgba(46, 51, 56, 0.11);
-      --radius: 24px;
+      --shadow: 0 14px 30px rgba(46, 51, 56, 0.08);
+      --radius: 16px;
     }
 
     * { box-sizing: border-box; }
 
     body {
       margin: 0;
-      font-family: "Aptos", "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      font-family: "Segoe UI", "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
       color: var(--text);
       background:
-        radial-gradient(circle at top left, rgba(30, 93, 109, 0.12), transparent 34%),
+        radial-gradient(circle at top left, rgba(30, 93, 109, 0.08), transparent 32%),
         linear-gradient(180deg, #f7f1ea 0%, #f2ece3 100%);
     }
 
     a { color: inherit; text-decoration: none; }
 
-    html {
-      scroll-behavior: smooth;
-    }
-
-    :target {
-      scroll-margin-top: 24px;
-    }
-
-    .anchor-target {
-      display: block;
-      height: 0;
-      visibility: hidden;
-      scroll-margin-top: 24px;
+    [hidden] {
+      display: none !important;
     }
 
     .page {
@@ -71,34 +60,6 @@
       min-width: 0;
     }
 
-    .quick-nav {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      gap: 6px;
-      flex-wrap: wrap;
-    }
-
-    .quick-nav a {
-      display: inline-flex;
-      align-items: center;
-      min-height: 30px;
-      padding: 0 10px;
-      border-radius: 999px;
-      color: #43515a;
-      font-size: 0.82rem;
-      font-weight: 700;
-      background: rgba(255, 251, 246, 0.56);
-      border: 1px solid rgba(24, 33, 38, 0.07);
-      transition: background 160ms ease, color 160ms ease, border-color 160ms ease;
-    }
-
-    .quick-nav a:hover {
-      color: var(--accent);
-      background: rgba(215, 232, 237, 0.72);
-      border-color: rgba(30, 93, 109, 0.14);
-    }
-
     .brand {
       display: flex;
       align-items: center;
@@ -108,14 +69,14 @@
     .brand-mark {
       width: 44px;
       height: 44px;
-      border-radius: 14px;
+      border-radius: 12px;
       background: linear-gradient(135deg, #1e5d6d 0%, #5f8b83 100%);
       color: white;
       display: grid;
       place-items: center;
       font-weight: 700;
       letter-spacing: 0.06em;
-      box-shadow: 0 16px 32px rgba(30, 93, 109, 0.24);
+      box-shadow: 0 10px 22px rgba(30, 93, 109, 0.2);
     }
 
     .brand-copy strong {
@@ -143,14 +104,14 @@
     .card {
       background: var(--panel);
       backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.55);
+      border: 1px solid rgba(24, 33, 38, 0.08);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
     }
 
     .hero-copy {
-      padding: 38px 48px;
-      min-height: 300px;
+      padding: 34px 48px;
+      min-height: 268px;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -158,40 +119,358 @@
       text-align: center;
       width: 100%;
       margin: 0;
+      background: linear-gradient(180deg, rgba(255, 251, 246, 0.96), rgba(255, 251, 246, 0.84));
     }
 
     .eyebrow {
       font-size: 0.82rem;
-      letter-spacing: 0.14em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
       color: var(--accent);
       font-weight: 700;
-      margin-bottom: 18px;
+      margin-bottom: 14px;
     }
 
     h1, h2 {
       margin: 0;
-      font-family: "Georgia", "Times New Roman", serif;
+      font-family: "Songti SC", "SimSun", "Noto Serif CJK SC", "STSong", "Times New Roman", serif;
       font-weight: 700;
-      letter-spacing: -0.02em;
+      letter-spacing: 0;
     }
 
     h1 {
-      font-size: clamp(2.35rem, 3vw, 3.1rem);
-      line-height: 1.18;
-      max-width: none;
+      font-size: clamp(2.12rem, 2.65vw, 2.82rem);
+      line-height: 1.24;
+      max-width: 960px;
       margin-bottom: 20px;
       text-align: center;
     }
 
     .lead {
-      font-size: 1.05rem;
-      line-height: 1.75;
+      font-size: 1.02rem;
+      line-height: 1.72;
       color: #46525a;
-      max-width: 62rem;
+      max-width: 58rem;
       margin: 0 auto;
       text-align: center;
       text-wrap: balance;
+    }
+
+    [data-demo-view][hidden] {
+      display: none !important;
+    }
+
+    .home-view {
+      display: grid;
+      gap: 22px;
+    }
+
+    .module-launch {
+      padding: 22px;
+    }
+
+    .data-warning {
+      margin-bottom: 22px;
+      padding: 16px 18px;
+      color: #7a4a24;
+      background: rgba(255, 235, 198, 0.72);
+      border: 1px solid rgba(184, 106, 74, 0.24);
+      font-weight: 700;
+      line-height: 1.6;
+    }
+
+    .module-launch-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .module-card {
+      min-height: 144px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      border-radius: 14px;
+      background: rgba(255, 250, 244, 0.92);
+      border: 1px solid rgba(24, 33, 38, 0.1);
+      transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+    }
+
+    .module-card:hover {
+      transform: translateY(-1px);
+      border-color: rgba(30, 93, 109, 0.22);
+      box-shadow: 0 10px 18px rgba(46, 51, 56, 0.07);
+    }
+
+    .module-card-index {
+      width: 30px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      border-radius: 9px;
+      color: var(--accent);
+      background: var(--accent-soft);
+      font-weight: 800;
+      font-size: 0.8rem;
+    }
+
+    .module-card strong {
+      font-size: 1.08rem;
+      line-height: 1.3;
+    }
+
+    .module-card p {
+      margin: 0;
+      color: #53616a;
+      font-size: 0.9rem;
+      line-height: 1.55;
+    }
+
+    .view-panel {
+      margin-top: 22px;
+    }
+
+    .back-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 14px;
+      color: var(--muted);
+      font-size: 0.86rem;
+      font-weight: 700;
+    }
+
+    .back-button {
+      min-height: 34px;
+      padding: 0 12px;
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      color: var(--accent);
+      background: rgba(215, 232, 237, 0.82);
+      border: 1px solid rgba(30, 93, 109, 0.16);
+    }
+
+    .recognition-card {
+      padding: 24px;
+    }
+
+    .recognition-layout {
+      display: grid;
+      grid-template-columns: minmax(260px, 0.8fr) minmax(320px, 1.2fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .recognition-uploader,
+    .recognition-preview,
+    .recognition-result {
+      border-radius: 14px;
+      background: var(--panel-strong);
+      border: 1px solid var(--line);
+    }
+
+    .recognition-uploader {
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .file-drop {
+      position: relative;
+      min-height: 182px;
+      padding: 18px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      border-radius: 14px;
+      border: 1px dashed rgba(30, 93, 109, 0.32);
+      background: rgba(215, 232, 237, 0.28);
+      cursor: pointer;
+    }
+
+    .file-drop input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .file-drop-main {
+      display: block;
+      font-weight: 800;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .file-drop-sub {
+      display: block;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .recognition-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .primary-action,
+    .ghost-action {
+      min-height: 38px;
+      padding: 0 14px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .primary-action {
+      color: white;
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .primary-action:disabled {
+      cursor: wait;
+      opacity: 0.68;
+    }
+
+    .ghost-action {
+      color: var(--accent);
+      background: transparent;
+      border-color: rgba(30, 93, 109, 0.24);
+    }
+
+    .recognition-status {
+      min-height: 22px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .recognition-status.is-error {
+      color: #9b3d2d;
+      font-weight: 700;
+    }
+
+    .recognition-status.is-success {
+      color: var(--success);
+      font-weight: 700;
+    }
+
+    .recognition-status.is-warning {
+      color: #8b5d24;
+      font-weight: 700;
+    }
+
+    .recognition-preview {
+      min-height: 320px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      background: linear-gradient(180deg, rgba(255,255,255,0.8), rgba(248,243,236,0.5));
+    }
+
+    .recognition-preview img {
+      width: 100%;
+      height: 100%;
+      max-height: 420px;
+      display: block;
+      object-fit: contain;
+      background: #e7dfd4;
+    }
+
+    .preview-placeholder {
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .recognition-result {
+      grid-column: 1 / -1;
+      padding: 18px;
+    }
+
+    .result-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .result-label {
+      margin: 0;
+      font-size: clamp(1.6rem, 3vw, 2.35rem);
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    .result-confidence {
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .probability-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .probability-card {
+      padding: 14px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.58);
+      border: 1px solid var(--line);
+    }
+
+    .probability-card span,
+    .result-meta {
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .probability-card strong {
+      display: block;
+      margin-top: 6px;
+      font-size: 1.45rem;
+    }
+
+    .probability-bar {
+      height: 8px;
+      margin-top: 10px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(24, 33, 38, 0.08);
+    }
+
+    .probability-bar i {
+      display: block;
+      height: 100%;
+      width: 0;
+      border-radius: inherit;
+      background: var(--accent);
+      transition: width 220ms ease;
+    }
+
+    .probability-card.is-warm .probability-bar i {
+      background: var(--warm);
+    }
+
+    .result-warning {
+      margin: 12px 0 0;
+      color: #7a4a3b;
+      font-size: 0.9rem;
+      line-height: 1.6;
     }
 
     .status-pill {
@@ -210,13 +489,33 @@
 
     .kpis {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      margin-bottom: 22px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
+      align-items: stretch;
     }
 
     .kpi {
-      padding: 22px;
+      min-height: 132px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-radius: 14px;
+      background: rgba(255, 250, 244, 0.94);
+      border-color: rgba(24, 33, 38, 0.1);
+      box-shadow: 0 8px 18px rgba(46, 51, 56, 0.055);
+    }
+
+    .kpi.is-primary {
+      border-top: 3px solid rgba(30, 93, 109, 0.78);
+    }
+
+    .kpi.is-secondary {
+      grid-column: span 2;
+      min-height: 104px;
+      background: rgba(255, 250, 244, 0.7);
+      box-shadow: none;
     }
 
     .kpi-label {
@@ -224,12 +523,24 @@
       text-transform: uppercase;
       letter-spacing: 0.08em;
       color: var(--muted);
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .kpi-value {
-      font-size: clamp(1.6rem, 3vw, 2.5rem);
+      font-size: clamp(1.65rem, 2.3vw, 2.28rem);
       font-weight: 700;
+      line-height: 1.12;
+    }
+
+    .kpi.is-secondary .kpi-value {
+      font-size: clamp(1.35rem, 2vw, 1.8rem);
+    }
+
+    .kpi-note {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.5;
     }
 
     .section {
@@ -246,8 +557,13 @@
 
     .section-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: minmax(0, 1.35fr) minmax(300px, 0.65fr);
       gap: 22px;
+      align-items: start;
+    }
+
+    .section-grid > .back-row {
+      grid-column: 1 / -1;
     }
 
     .overview-grid,
@@ -272,7 +588,7 @@
 
     .summary-mini {
       padding: 18px;
-      border-radius: 18px;
+      border-radius: 14px;
       background: var(--panel-strong);
       border: 1px solid var(--line);
     }
@@ -306,8 +622,8 @@
       display: block;
       margin: 0 auto;
       background: linear-gradient(180deg, rgba(255,255,255,0.8), rgba(248,243,236,0.5));
-      border-radius: 18px;
-      border: 1px solid rgba(24, 33, 38, 0.06);
+      border-radius: 14px;
+      border: 1px solid rgba(24, 33, 38, 0.08);
     }
 
     .compare-chart {
@@ -316,8 +632,8 @@
       height: auto;
       display: block;
       background: linear-gradient(180deg, rgba(255,255,255,0.8), rgba(248,243,236,0.5));
-      border-radius: 18px;
-      border: 1px solid rgba(24, 33, 38, 0.06);
+      border-radius: 14px;
+      border: 1px solid rgba(24, 33, 38, 0.08);
       margin-top: 18px;
     }
 
@@ -330,7 +646,7 @@
 
     .mini-chart-card {
       padding: 18px;
-      border-radius: 18px;
+      border-radius: 14px;
       background: rgba(255, 255, 255, 0.46);
       border: 1px solid var(--line);
     }
@@ -353,10 +669,6 @@
       font-size: 0.84rem;
     }
 
-    .compare-note {
-      display: none;
-    }
-
     .modules {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
@@ -366,7 +678,7 @@
 
     .module {
       padding: 16px;
-      border-radius: 18px;
+      border-radius: 14px;
       background: var(--panel-strong);
       border: 1px solid var(--line);
       min-height: 150px;
@@ -415,7 +727,7 @@
 
     .param-card {
       padding: 18px;
-      border-radius: 18px;
+      border-radius: 14px;
       background: var(--panel-strong);
       border: 1px solid var(--line);
     }
@@ -442,27 +754,98 @@
     }
 
     .sample-card {
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
       overflow: hidden;
-      border-radius: 20px;
+      border-radius: 14px;
       background: var(--panel-strong);
-      border: 1px solid var(--line);
+      border: 1px solid rgba(24, 33, 38, 0.1);
+    }
+
+    .sample-image-wrap {
+      position: relative;
+      display: grid;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      background: #e7dfd4;
+    }
+
+    .sample-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      min-height: 26px;
+      padding: 0 9px;
+      border-radius: 999px;
+      color: var(--accent);
+      background: rgba(255, 251, 246, 0.88);
+      border: 1px solid rgba(30, 93, 109, 0.16);
+      font-size: 0.78rem;
+      font-weight: 800;
+    }
+
+    .sample-card.is-malignant .sample-badge {
+      color: #8f4b36;
+      border-color: rgba(184, 106, 74, 0.22);
     }
 
     .sample-card img {
       display: block;
       width: 100%;
-      aspect-ratio: 1 / 1;
+      height: 100%;
       object-fit: cover;
+      background: #e7dfd4;
+    }
+
+    .sample-image-fallback {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      padding: 16px;
+      color: var(--muted);
+      font-weight: 700;
+      text-align: center;
       background: #e7dfd4;
     }
 
     .sample-copy {
       padding: 14px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sample-card strong {
+      font-size: 1rem;
+      line-height: 1.35;
+    }
+
+    .sample-line {
+      margin-top: 8px;
+      color: #4c5860;
+      font-size: 0.92rem;
+      line-height: 1.55;
     }
 
     .sample-meta {
       font-size: 0.9rem;
       margin-top: 8px;
+      line-height: 1.5;
+    }
+
+    .sample-empty {
+      grid-column: 1 / -1;
+      padding: 18px;
+      border-radius: 14px;
+      background: var(--panel-strong);
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-weight: 700;
     }
 
     table {
@@ -494,6 +877,14 @@
       letter-spacing: 0.06em;
       text-transform: uppercase;
       font-weight: 700;
+    }
+
+    tbody tr {
+      transition: background 160ms ease;
+    }
+
+    tbody tr:hover {
+      background: rgba(215, 232, 237, 0.34);
     }
 
     code {
@@ -554,18 +945,24 @@
         align-items: flex-start;
       }
 
-      .quick-nav {
-        justify-content: flex-start;
-      }
-
       .hero,
       .section-grid,
       .overview-grid,
       .experiment-comparison-grid,
-      .kpis,
       .summary-strip,
+      .module-launch-grid,
+      .recognition-layout,
+      .probability-grid,
       .param-grid {
         grid-template-columns: 1fr;
+      }
+
+      .kpis {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .kpi.is-secondary {
+        grid-column: span 1;
       }
 
       .modules {
@@ -588,7 +985,9 @@
       .architecture-card,
       .gallery-card,
       .table-card,
-      .compare-card {
+      .compare-card,
+      .module-launch,
+      .recognition-card {
         padding: 20px;
       }
 
@@ -598,8 +997,8 @@
       }
 
       h1 {
-        font-size: clamp(1.9rem, 7vw, 2.4rem);
-        line-height: 1.25;
+        font-size: clamp(1.82rem, 7vw, 2.35rem);
+        line-height: 1.28;
         max-width: none;
         white-space: normal;
         word-wrap: break-word;
@@ -608,8 +1007,28 @@
       }
 
       .modules,
-      .gallery {
+      .kpis,
+      .gallery,
+      .recognition-actions {
         grid-template-columns: 1fr;
+      }
+
+      .kpi.is-secondary {
+        grid-column: span 1;
+      }
+
+      .recognition-actions {
+        flex-direction: column;
+      }
+
+      .primary-action,
+      .ghost-action {
+        width: 100%;
+      }
+
+      .result-head {
+        flex-direction: column;
+        align-items: flex-start;
       }
     }
 
@@ -651,261 +1070,400 @@
         </div>
       </div>
       <div class="top-actions">
-        <nav class="quick-nav" aria-label="页面章节导航">
-          <a href="#trend">曲线</a>
-          <a href="#architecture">结构</a>
-          <a href="#attack">攻击</a>
-          <a href="#main-experiments">主实验</a>
-          <a href="#high-accuracy">高精度</a>
-          <a href="#ablation">消融</a>
-          <a href="#samples">样例</a>
-        </nav>
         <div class="status-pill">本科毕设答辩演示页</div>
       </div>
     </div>
 
-    <section class="hero">
-      <article class="card hero-copy">
-        <div>
-          <div class="eyebrow">差分隐私 × 联邦学习</div>
-          <h1>融合差分隐私的联邦学习医疗影像协同诊断系统设计与实现</h1>
-          <p class="lead">
-            面向医疗数据孤岛场景，系统在不共享原始影像的前提下完成多客户端协同训练，
-            通过裁剪与加噪保护本地更新，并展示模型性能与隐私预算之间的权衡关系。正式实验采用
-            HAM10000 二分类数据集。
+    <div class="data-warning" id="dataLoadWarning" hidden>
+      实验数据未加载，请检查 <code>frontend/dashboard-data.js</code>。
+    </div>
+
+    <main>
+      <section class="home-view" data-demo-view="home">
+        <section class="hero">
+          <article class="card hero-copy">
+            <div>
+              <div class="eyebrow">差分隐私 × 联邦学习</div>
+              <h1>融合差分隐私的联邦学习医疗影像协同诊断系统设计与实现</h1>
+              <p class="lead">
+                面向医疗数据孤岛场景，系统在不共享原始影像的前提下完成多客户端协同训练，
+                通过裁剪与加噪保护本地更新，并展示模型性能与隐私预算之间的权衡关系。正式实验采用
+                HAM10000 二分类数据集。
+              </p>
+            </div>
+          </article>
+        </section>
+
+        <section class="card module-launch" aria-labelledby="moduleLaunchTitle">
+          <div class="section-head">
+            <div>
+              <div class="eyebrow">答辩演示导航</div>
+              <h2 id="moduleLaunchTitle">功能模块</h2>
+            </div>
+            <div class="caption">点击进入对应模块</div>
+          </div>
+          <div class="module-launch-grid">
+            <a class="module-card" href="#overview" data-view-link="overview">
+              <span class="module-card-index">01</span>
+              <strong>结果概览</strong>
+              <p>正式实验关键指标与最佳方案摘要。</p>
+            </a>
+            <a class="module-card" href="#main-experiments" data-view-link="main-experiments">
+              <span class="module-card-index">02</span>
+              <strong>主实验</strong>
+              <p>无隐私、噪声机制与混合机制横向对比。</p>
+            </a>
+            <a class="module-card" href="#high-accuracy" data-view-link="high-accuracy">
+              <span class="module-card-index">03</span>
+              <strong>高精度</strong>
+              <p>Backbone、长轮次与高精度上限实验。</p>
+            </a>
+            <a class="module-card" href="#trend" data-view-link="trend">
+              <span class="module-card-index">04</span>
+              <strong>训练趋势</strong>
+              <p>验证准确率、测试准确率与隐私预算变化。</p>
+            </a>
+            <a class="module-card" href="#architecture" data-view-link="architecture">
+              <span class="module-card-index">05</span>
+              <strong>系统结构</strong>
+              <p>数据管理、本地训练、隐私保护与联邦聚合。</p>
+            </a>
+            <a class="module-card" href="#ablation" data-view-link="ablation">
+              <span class="module-card-index">06</span>
+              <strong>消融分析</strong>
+              <p>客户端数量、裁剪阈值与数据分布影响。</p>
+            </a>
+            <a class="module-card" href="#attack" data-view-link="attack">
+              <span class="module-card-index">07</span>
+              <strong>攻击防御</strong>
+              <p>成员推断攻击准确率与随机猜测参考线。</p>
+            </a>
+            <a class="module-card" href="#samples" data-view-link="samples">
+              <span class="module-card-index">08</span>
+              <strong>样例参数</strong>
+              <p>诊断样例展示与核心训练配置。</p>
+            </a>
+            <a class="module-card" href="#recognition" data-view-link="recognition">
+              <span class="module-card-index">09</span>
+              <strong>现场识别</strong>
+              <p>上传图片并展示良性/疑似恶性概率。</p>
+            </a>
+          </div>
+        </section>
+      </section>
+
+      <section class="view-panel section-grid-single" id="trend" data-demo-view="trend" hidden>
+        <div class="back-row">
+          <a class="back-button" href="#home" data-view-link="home">返回主页</a>
+          <span>实验曲线</span>
+        </div>
+        <article class="card chart-card">
+          <div class="section-head">
+            <div>
+              <div class="eyebrow">实验曲线</div>
+              <h2>训练趋势</h2>
+            </div>
+            <div class="caption">蓝线为验证准确率，棕线为测试准确率</div>
+          </div>
+          <svg class="chart" id="metricChart" viewBox="0 0 760 390" preserveAspectRatio="xMidYMid meet"></svg>
+        </article>
+      </section>
+
+      <section class="view-panel section-grid-single" id="architecture" data-demo-view="architecture" hidden>
+        <div class="back-row">
+          <a class="back-button" href="#home" data-view-link="home">返回主页</a>
+          <span>系统设计</span>
+        </div>
+        <article class="card architecture-card">
+          <div class="section-head">
+            <div>
+              <div class="eyebrow">系统设计</div>
+              <h2>系统结构</h2>
+            </div>
+          </div>
+          <p>
+            系统由数据管理、本地训练、隐私保护、联邦聚合和结果分析五个模块组成，覆盖从数据输入到结果展示的完整流程。
           </p>
-        </div>
-      </article>
-    </section>
+          <div class="modules">
+            <div class="module">
+              <div class="module-index">1</div>
+              <div class="module-title">数据管理</div>
+              <p>导入影像、预处理、划分客户端数据。</p>
+            </div>
+            <div class="module">
+              <div class="module-index">2</div>
+              <div class="module-title">本地训练</div>
+              <p>客户端本地迭代训练分类模型。</p>
+            </div>
+            <div class="module">
+              <div class="module-index">3</div>
+              <div class="module-title">隐私保护</div>
+              <p>裁剪更新并注入隐私噪声。</p>
+            </div>
+            <div class="module">
+              <div class="module-index">4</div>
+              <div class="module-title">联邦聚合</div>
+              <p>服务端执行加权 FedAvg 聚合。</p>
+            </div>
+            <div class="module">
+              <div class="module-index">5</div>
+              <div class="module-title">结果分析</div>
+              <p>对比准确率、AUC、epsilon 与耗时。</p>
+            </div>
+          </div>
+        </article>
+      </section>
 
-    <section class="kpis" id="kpiGrid"></section>
+      <section class="view-panel section-grid-single" id="overview" data-demo-view="overview" hidden>
+        <div class="back-row">
+          <a class="back-button" href="#home" data-view-link="home">返回主页</a>
+          <span>正式实验对比</span>
+        </div>
+        <section class="kpis" id="kpiGrid"></section>
+        <article class="card compare-card">
+          <div class="section-head">
+            <div>
+              <div class="eyebrow">正式实验对比</div>
+              <h2>答辩结果概览</h2>
+            </div>
+          </div>
+          <div class="summary-strip" id="aggregateSummaryGrid"></div>
+        </article>
+      </section>
 
-    <span id="trend" class="anchor-target"></span>
-    <section class="section overview-grid">
-      <article class="card chart-card">
-        <div class="section-head">
-          <div>
-            <div class="eyebrow">实验曲线</div>
-            <h2>训练趋势</h2>
-          </div>
-          <div class="caption">蓝线为验证准确率，棕线为测试准确率</div>
+      <section class="view-panel section-grid-single" id="attack" data-demo-view="attack" hidden>
+        <div class="back-row">
+          <a class="back-button" href="#home" data-view-link="home">返回主页</a>
+          <span>隐私攻击评估</span>
         </div>
-        <svg class="chart" id="metricChart" viewBox="0 0 760 390" preserveAspectRatio="xMidYMid meet"></svg>
-      </article>
+        <article class="card compare-card">
+          <div class="section-head">
+            <div>
+              <div class="eyebrow">隐私攻击评估</div>
+              <h2>成员推断攻击防御</h2>
+            </div>
+            <div class="caption">50% 为随机猜测参考线</div>
+          </div>
+          <svg class="compare-chart" id="attackChart" viewBox="0 0 1060 390" preserveAspectRatio="xMidYMid meet"></svg>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>实验名称</th>
+                  <th class="table-center">隐私机制</th>
+                  <th class="table-center">攻击准确率</th>
+                  <th class="table-center">攻击 AUC</th>
+                  <th class="table-center">评估样本数</th>
+                </tr>
+              </thead>
+              <tbody id="attackTableBody"></tbody>
+            </table>
+          </div>
+        </article>
+      </section>
 
-      <span id="architecture" class="anchor-target"></span>
-      <article class="card architecture-card">
-        <div class="section-head">
-          <div>
-            <div class="eyebrow">系统设计</div>
-            <h2>系统结构</h2>
-          </div>
+      <section class="view-panel section-grid-single" id="main-experiments" data-demo-view="main-experiments" hidden>
+        <div class="back-row">
+          <a class="back-button" href="#home" data-view-link="home">返回主页</a>
+          <span>主实验对比</span>
         </div>
-        <p>
-          系统由数据管理、本地训练、隐私保护、联邦聚合和结果分析五个模块组成，覆盖从数据输入到结果展示的完整流程。
-        </p>
-        <div class="modules">
-          <div class="module">
-            <div class="module-index">1</div>
-            <div class="module-title">数据管理</div>
-            <p>导入影像、预处理、划分客户端数据。</p>
+        <article class="card compare-card">
+          <div class="section-head">
+            <div>
+              <div class="eyebrow">主实验对比</div>
+              <h2>隐私机制横向比较</h2>
+            </div>
           </div>
-          <div class="module">
-            <div class="module-index">2</div>
-            <div class="module-title">本地训练</div>
-            <p>客户端本地迭代训练分类模型。</p>
+          <svg class="compare-chart" id="mainAggregateChart" viewBox="0 0 1060 390" preserveAspectRatio="xMidYMid meet"></svg>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>实验名称</th>
+                  <th class="table-center">隐私机制</th>
+                  <th class="table-center">验证选轮测试准确率</th>
+                  <th class="table-center">最高置信30样本准确率</th>
+                  <th class="table-center">验证选轮测试 AUC</th>
+                  <th class="table-center">稳定性</th>
+                  <th class="table-center">累计 Epsilon</th>
+                  <th class="table-center">平均每轮耗时</th>
+                </tr>
+              </thead>
+              <tbody id="mainAggregateTableBody"></tbody>
+            </table>
           </div>
-          <div class="module">
-            <div class="module-index">3</div>
-            <div class="module-title">隐私保护</div>
-            <p>裁剪更新并注入隐私噪声。</p>
-          </div>
-          <div class="module">
-            <div class="module-index">4</div>
-            <div class="module-title">联邦聚合</div>
-            <p>服务端执行加权 FedAvg 聚合。</p>
-          </div>
-          <div class="module">
-            <div class="module-index">5</div>
-            <div class="module-title">结果分析</div>
-            <p>对比准确率、AUC、epsilon 与耗时。</p>
-          </div>
-        </div>
-      </article>
-    </section>
+        </article>
+      </section>
 
-    <section class="section section-grid-single" id="overview">
-      <article class="card compare-card">
-        <div class="section-head">
-          <div>
-            <div class="eyebrow">正式实验对比</div>
-            <h2>答辩结果概览</h2>
-          </div>
+      <section class="view-panel section-grid-single" id="high-accuracy" data-demo-view="high-accuracy" hidden>
+        <div class="back-row">
+          <a class="back-button" href="#home" data-view-link="home">返回主页</a>
+          <span>高精度补充实验</span>
         </div>
-        <div class="summary-strip" id="aggregateSummaryGrid"></div>
-      </article>
-    </section>
+        <article class="card compare-card">
+          <div class="section-head">
+            <div>
+              <div class="eyebrow">高精度补充实验</div>
+              <h2>Backbone 与长轮次对比</h2>
+            </div>
+          </div>
+          <svg class="compare-chart" id="highAccAggregateChart" viewBox="0 0 1060 390" preserveAspectRatio="xMidYMid meet"></svg>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>实验名称</th>
+                  <th class="table-center">隐私机制</th>
+                  <th class="table-center">验证选轮测试准确率</th>
+                  <th class="table-center">最高置信30样本准确率</th>
+                  <th class="table-center">验证选轮测试 AUC</th>
+                  <th class="table-center">稳定性</th>
+                  <th class="table-center">累计 Epsilon</th>
+                  <th class="table-center">平均每轮耗时</th>
+                </tr>
+              </thead>
+              <tbody id="highAccAggregateTableBody"></tbody>
+            </table>
+          </div>
+        </article>
+      </section>
 
-    <span id="attack" class="anchor-target"></span>
-    <section class="section section-grid-single" id="attackSection" hidden>
-      <article class="card compare-card">
-        <div class="section-head">
-          <div>
-            <div class="eyebrow">隐私攻击评估</div>
-            <h2>成员推断攻击防御</h2>
+      <section class="view-panel section-grid-single" id="ablation" data-demo-view="ablation" hidden>
+        <div class="back-row">
+          <a class="back-button" href="#home" data-view-link="home">返回主页</a>
+          <span>消融实验分析</span>
+        </div>
+        <article class="card compare-card">
+          <div class="section-head">
+            <div>
+              <div class="eyebrow">消融实验分析</div>
+              <h2>参数变化影响</h2>
+            </div>
           </div>
-          <div class="caption">50% 为随机猜测参考线</div>
-        </div>
-        <svg class="compare-chart" id="attackChart" viewBox="0 0 1060 390" preserveAspectRatio="xMidYMid meet"></svg>
-        <div class="table-scroll">
-          <table>
-            <thead>
-              <tr>
-                <th>实验名称</th>
-                <th class="table-center">隐私机制</th>
-                <th class="table-center">攻击准确率</th>
-                <th class="table-center">攻击 AUC</th>
-                <th class="table-center">评估样本数</th>
-              </tr>
-            </thead>
-            <tbody id="attackTableBody"></tbody>
-          </table>
-        </div>
-      </article>
-    </section>
+          <div class="ablation-charts" id="ablationCharts"></div>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>实验名称</th>
+                  <th class="table-center">实验类型</th>
+                  <th class="table-center">验证选轮测试准确率</th>
+                  <th class="table-center">最高置信30样本准确率</th>
+                  <th class="table-center">验证选轮测试 AUC</th>
+                  <th class="table-center">稳定性</th>
+                  <th class="table-center">累计 Epsilon</th>
+                  <th class="table-center">平均每轮耗时</th>
+                </tr>
+              </thead>
+              <tbody id="ablationAggregateTableBody"></tbody>
+            </table>
+          </div>
+        </article>
+      </section>
 
-    <section class="section experiment-comparison-grid">
-      <span id="main-experiments" class="anchor-target"></span>
-      <article class="card compare-card">
-        <div class="section-head">
-          <div>
-            <div class="eyebrow">主实验对比</div>
-            <h2>隐私机制横向比较</h2>
+      <section class="view-panel section-grid" id="samples" data-demo-view="samples" hidden>
+        <div class="back-row">
+          <a class="back-button" href="#home" data-view-link="home">返回主页</a>
+          <span>样例与配置</span>
+        </div>
+        <article class="card gallery-card">
+          <div class="section-head">
+            <div>
+              <div class="eyebrow">样例查看</div>
+              <h2>诊断样例展示</h2>
+            </div>
           </div>
-        </div>
-        <svg class="compare-chart" id="mainAggregateChart" viewBox="0 0 1060 390" preserveAspectRatio="xMidYMid meet"></svg>
-        <div class="table-scroll">
-          <table>
-            <thead>
-              <tr>
-                <th>实验名称</th>
-                <th class="table-center">隐私机制</th>
-                <th class="table-center">验证选轮测试准确率</th>
-                <th class="table-center">高置信 Top30 准确率</th>
-                <th class="table-center">验证选轮测试 AUC</th>
-                <th class="table-center">稳定性</th>
-                <th class="table-center">累计 Epsilon</th>
-                <th class="table-center">平均每轮耗时</th>
-              </tr>
-            </thead>
-            <tbody id="mainAggregateTableBody"></tbody>
-          </table>
-        </div>
-      </article>
+          <div class="gallery" id="sampleGallery"></div>
+        </article>
 
-      <span id="high-accuracy" class="anchor-target"></span>
-      <article class="card compare-card">
-        <div class="section-head">
-          <div>
-            <div class="eyebrow">高精度补充实验</div>
-            <h2>Backbone 与长轮次对比</h2>
+        <article class="card table-card">
+          <div class="section-head">
+            <div>
+              <div class="eyebrow">训练配置</div>
+              <h2>核心参数配置</h2>
+            </div>
           </div>
-        </div>
-        <svg class="compare-chart" id="highAccAggregateChart" viewBox="0 0 1060 390" preserveAspectRatio="xMidYMid meet"></svg>
-        <div class="table-scroll">
-          <table>
-            <thead>
-              <tr>
-                <th>实验名称</th>
-                <th class="table-center">隐私机制</th>
-                <th class="table-center">验证选轮测试准确率</th>
-                <th class="table-center">高置信 Top30 准确率</th>
-                <th class="table-center">验证选轮测试 AUC</th>
-                <th class="table-center">稳定性</th>
-                <th class="table-center">累计 Epsilon</th>
-                <th class="table-center">平均每轮耗时</th>
-              </tr>
-            </thead>
-            <tbody id="highAccAggregateTableBody"></tbody>
-          </table>
-        </div>
-      </article>
+          <div class="param-grid" id="paramGrid"></div>
+        </article>
+      </section>
 
-      <span id="ablation" class="anchor-target"></span>
-      <article class="card compare-card">
-        <div class="section-head">
-          <div>
-            <div class="eyebrow">消融实验分析</div>
-            <h2>参数变化影响</h2>
+      <section class="view-panel section-grid-single" id="recognition" data-demo-view="recognition" hidden>
+        <div class="back-row">
+          <a class="back-button" href="#home" data-view-link="home">返回主页</a>
+          <span>现场识别</span>
+        </div>
+        <article class="card recognition-card">
+          <div class="section-head">
+            <div>
+              <div class="eyebrow">现场识别</div>
+              <h2>皮肤镜图片识别</h2>
+            </div>
+            <div class="caption">HAM10000 良性 / 疑似恶性二分类</div>
           </div>
-        </div>
-        <div class="ablation-charts" id="ablationCharts"></div>
-        <div class="table-scroll">
-          <table>
-            <thead>
-              <tr>
-                <th>实验名称</th>
-                <th class="table-center">实验类型</th>
-                <th class="table-center">验证选轮测试准确率</th>
-                <th class="table-center">高置信 Top30 准确率</th>
-                <th class="table-center">验证选轮测试 AUC</th>
-                <th class="table-center">稳定性</th>
-                <th class="table-center">累计 Epsilon</th>
-                <th class="table-center">平均每轮耗时</th>
-              </tr>
-            </thead>
-            <tbody id="ablationAggregateTableBody"></tbody>
-          </table>
-        </div>
-      </article>
-    </section>
+          <div class="recognition-layout">
+            <form class="recognition-uploader" id="recognitionForm">
+              <label class="file-drop" for="recognitionFile">
+                <input id="recognitionFile" type="file" accept="image/*" />
+                <span>
+                  <span class="file-drop-main" id="recognitionFileLabel">选择皮肤图片</span>
+                  <span class="file-drop-sub">JPG / PNG / WEBP，最大 12 MB</span>
+                </span>
+              </label>
+              <div class="recognition-actions">
+                <button class="primary-action" id="recognitionSubmit" type="submit">开始识别</button>
+                <button class="ghost-action" id="recognitionClear" type="button">清空</button>
+                <button class="ghost-action" id="recognitionFallback" type="button" hidden>使用演示兜底（未调用模型）</button>
+              </div>
+              <div class="recognition-status" id="recognitionStatus" role="status"></div>
+            </form>
 
-    <span id="samples" class="anchor-target"></span>
-    <section class="section section-grid">
-      <article class="card gallery-card">
-        <div class="section-head">
-          <div>
-            <div class="eyebrow">样例查看</div>
-            <h2>诊断样例展示</h2>
-          </div>
-        </div>
-        <div class="gallery" id="sampleGallery"></div>
-      </article>
+            <div class="recognition-preview" id="recognitionPreview">
+              <img id="recognitionPreviewImage" alt="待识别图片预览" hidden />
+              <div class="preview-placeholder" id="recognitionPlaceholder">未选择图片</div>
+            </div>
 
-      <article class="card table-card">
-        <div class="section-head">
-          <div>
-            <div class="eyebrow">训练配置</div>
-            <h2>核心参数配置</h2>
+            <div class="recognition-result" id="recognitionResult" hidden>
+              <div class="result-head">
+                <p class="result-label" id="recognitionLabel">--</p>
+                <div class="result-confidence" id="recognitionConfidence">置信度 --</div>
+              </div>
+              <div class="probability-grid">
+                <div class="probability-card">
+                  <span>良性概率</span>
+                  <strong id="benignProbability">--</strong>
+                  <div class="probability-bar"><i id="benignProbabilityBar"></i></div>
+                </div>
+                <div class="probability-card is-warm">
+                  <span>疑似恶性概率</span>
+                  <strong id="malignantProbability">--</strong>
+                  <div class="probability-bar"><i id="malignantProbabilityBar"></i></div>
+                </div>
+              </div>
+              <div class="result-meta" id="recognitionMeta"></div>
+              <p class="result-warning" id="recognitionWarning">仅用于毕业设计答辩演示，不能替代医生诊断。</p>
+            </div>
           </div>
-        </div>
-        <div class="param-grid" id="paramGrid"></div>
-      </article>
-    </section>
+        </article>
+      </section>
+    </main>
 
     <footer class="page-footer">本科毕设答辩 · FedMedDP · 2026</footer>
   </div>
 
   <script src="./dashboard-data.js"></script>
   <script>
+    const dataLoaded = Boolean(window.FEDMEDDP_DASHBOARD);
     const fallbackData = {
-      summary: {
-        best_test_accuracy: 1,
-        final_test_auc: 1,
-        mechanism: "hybrid",
-        classes: ["lesion", "normal"]
-      },
-      history: [
-        { round: 1, val_accuracy: 0.5, test_accuracy: 0.5, mean_epsilon: 54.13, cumulative_epsilon: 54.13 },
-        { round: 2, val_accuracy: 0.5, test_accuracy: 0.5, mean_epsilon: 58.01, cumulative_epsilon: 112.14 },
-        { round: 3, val_accuracy: 1.0, test_accuracy: 1.0, mean_epsilon: 47.02, cumulative_epsilon: 159.16 }
-      ],
+      summary: {},
+      history: [],
       samples: [],
       comparisonPlan: [],
-      aggregateResults: []
+      aggregateResults: [],
+      attackResults: [],
+      multiSeedResults: []
     };
 
-    const dashboard = window.FEDMEDDP_DASHBOARD || fallbackData;
+    const dashboard = dataLoaded ? window.FEDMEDDP_DASHBOARD : fallbackData;
     const summary = dashboard.summary || {};
     const history = dashboard.history || [];
     const aggregateResults = dashboard.aggregateResults || [];
@@ -928,50 +1486,68 @@
       .filter(Boolean)
       .sort((a, b) => selectedTestAccuracy(b) - selectedTestAccuracy(a))[0] || summary;
     const bestAccuracyValue = selectedTestAccuracy(bestAccuracyRow);
-    const hasMetReferenceTarget = bestAccuracyValue >= referenceBestAccuracy;
+    const hasMetReferenceTarget = dataLoaded && bestAccuracyValue >= referenceBestAccuracy;
     const summaryHasMetReferenceTarget =
-      Boolean(summary.meets_reference_best_accuracy) || selectedTestAccuracy(summary) >= referenceBestAccuracy;
+      dataLoaded && (Boolean(summary.meets_reference_best_accuracy) || selectedTestAccuracy(summary) >= referenceBestAccuracy);
 
     const confidenceAccuracy = selectedConfidenceAccuracy(summary) ?? selectedConfidenceAccuracy(bestAccuracyRow);
-    const kpis = compactItems([
-      hasMetReferenceTarget
-        ? { label: "超过文献准确率", value: formatAccuracyWithStd(bestAccuracyRow) }
-        : { label: "最佳测试准确率", value: formatAccuracyWithStd(bestAccuracyRow) },
+    const sensitivity = selectedSensitivity(summary);
+    const specificity = selectedSpecificity(summary);
+    const kpis = dataLoaded ? compactItems([
+      { label: "最佳测试准确率", value: formatAccuracyWithStd(bestAccuracyRow) },
       { label: "验证选轮测试 AUC", value: formatFloat(selectedTestAuc(bestAccuracyRow)) },
+      sensitivity === null
+        ? null
+        : { label: "测试敏感度", value: formatMaybePercent(sensitivity), note: "恶性召回，当前为主要短板与改进方向。" },
+      specificity === null
+        ? null
+        : { label: "测试特异度", value: formatMaybePercent(specificity), note: "良性样本识别稳定性指标。" },
       confidenceAccuracy === null
         ? null
-        : { label: "高置信 Top30 准确率", value: formatMaybePercent(confidenceAccuracy) },
+        : { label: "最高置信30样本准确率", value: formatMaybePercent(confidenceAccuracy), note: "模型最有把握的30个样本，非整体测试准确率。" },
       { label: "隐私机制", value: formatMechanism(summary.mechanism || "hybrid") }
+    ]) : [];
+
+    const demoViews = new Set([
+      "home",
+      "trend",
+      "architecture",
+      "overview",
+      "attack",
+      "main-experiments",
+      "high-accuracy",
+      "ablation",
+      "samples",
+      "recognition"
+    ]);
+    const demoViewAliases = new Map([
+      ["attackSection", "attack"]
     ]);
 
-    document.getElementById("kpiGrid").innerHTML = kpis.map((item) => `
-      <article class="card kpi">
-        <div class="kpi-label">${item.label}</div>
-        <div class="kpi-value">${item.value}</div>
-      </article>
-    `).join("");
-
-    document.getElementById("sampleGallery").innerHTML = (dashboard.samples || []).map((item) => `
-      <article class="sample-card">
-        <img src="${item.path}" alt="${item.label}" />
-        <div class="sample-copy">
-          <strong>${item.label}</strong>
-          <p>预测结果：${item.prediction}</p>
-          <div class="sample-meta">置信度 ${(item.confidence * 100).toFixed(1)}%</div>
+    initDemoNavigation();
+    renderSafely("数据加载状态", () => setDataLoadWarning(dataLoaded));
+    renderSafely("KPI", () => setElementHtml("kpiGrid", kpis.map((item, index) => `
+      <article class="card kpi ${index < 4 ? "is-primary" : "is-secondary"}">
+        <div>
+          <div class="kpi-label">${item.label}</div>
+          <div class="kpi-value">${item.value}</div>
         </div>
+        ${item.note ? `<div class="kpi-note">${item.note}</div>` : ""}
       </article>
-    `).join("");
-
-    drawMetricChart(history, summary);
-    renderAggregateSummary(mainResults, highAccResults, ablationResults);
-    drawAggregateChart("mainAggregateChart", mainResults, "主实验");
-    drawAggregateChart("highAccAggregateChart", highAccResults, "高精度补充实验");
-    drawAblationCharts("ablationCharts", ablationResults);
-    renderAggregateTable("mainAggregateTableBody", mainResults, false);
-    renderAggregateTable("highAccAggregateTableBody", highAccResults, false);
-    renderAggregateTable("ablationAggregateTableBody", ablationResults, true);
-    renderAttackResults(attackResults);
-    renderParamGrid(summary);
+    `).join("")));
+    renderSafely("样例展示", () => setElementHtml("sampleGallery", renderSampleCards(dashboard.samples || [])));
+    renderSafely("样例图片降级", () => initSampleImageFallbacks());
+    renderSafely("训练趋势图", () => drawMetricChart(history, summary));
+    renderSafely("结果概览", () => renderAggregateSummary(mainResults, highAccResults, ablationResults));
+    renderSafely("主实验图", () => drawAggregateChart("mainAggregateChart", mainResults, "主实验"));
+    renderSafely("高精度图", () => drawAggregateChart("highAccAggregateChart", highAccResults, "高精度补充实验"));
+    renderSafely("消融图", () => drawAblationCharts("ablationCharts", ablationResults));
+    renderSafely("主实验表格", () => renderAggregateTable("mainAggregateTableBody", mainResults, false));
+    renderSafely("高精度表格", () => renderAggregateTable("highAccAggregateTableBody", highAccResults, false));
+    renderSafely("消融表格", () => renderAggregateTable("ablationAggregateTableBody", ablationResults, true));
+    renderSafely("攻击评估", () => renderAttackResults(attackResults));
+    renderSafely("参数配置", () => renderParamGrid(summary));
+    renderSafely("现场识别初始化", () => initRecognitionDemo());
 
     function formatPercent(value, digits = 1) {
       return `${(Number(value) * 100).toFixed(digits)}%`;
@@ -979,6 +1555,103 @@
 
     function compactItems(items) {
       return items.filter(Boolean);
+    }
+
+    function renderSafely(label, renderFn) {
+      try {
+        renderFn();
+      } catch (error) {
+        console.error(`${label} 渲染失败`, error);
+      }
+    }
+
+    function setElementHtml(id, html) {
+      const element = document.getElementById(id);
+      if (element) {
+        element.innerHTML = html;
+      }
+      return element;
+    }
+
+    function setDataLoadWarning(isLoaded) {
+      const warning = document.getElementById("dataLoadWarning");
+      if (warning) {
+        warning.hidden = isLoaded;
+      }
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#39;");
+    }
+
+    function truthLabelFromSample(item) {
+      const explicit = item.true_label_zh || item.true_label || item.class_label_zh;
+      if (explicit) {
+        return String(explicit);
+      }
+      const label = String(item.label || "");
+      if (label.includes("恶性")) {
+        return "恶性";
+      }
+      if (label.includes("良性")) {
+        return "良性";
+      }
+      return label.replace(/样例$/, "") || "未知";
+    }
+
+    function renderSampleCards(samples) {
+      if (!samples.length) {
+        return `<div class="sample-empty">暂未生成样例图片，请先运行数据生成脚本。</div>`;
+      }
+      return samples.slice(0, 4).map(renderSampleCard).join("");
+    }
+
+    function renderSampleCard(item) {
+      const trueLabel = truthLabelFromSample(item);
+      const cardLabel = item.label || `${trueLabel}样例`;
+      const sampleToneClass = trueLabel.includes("恶性") ? "is-malignant" : "is-benign";
+      const source = item.image_data_url || item.path || "";
+      const hasRealPrediction = Boolean(item.probabilities && Object.prototype.hasOwnProperty.call(item, "correct"));
+      const confidence = toFiniteNumber(item.confidence);
+      const predictionLine = hasRealPrediction && item.prediction
+        ? `<div class="sample-line">模型预测：${escapeHtml(item.prediction)}</div>`
+        : "";
+      const confidenceLine = hasRealPrediction && confidence !== null
+        ? `<div class="sample-meta">置信度 ${formatPercent(confidence)}</div>`
+        : `<div class="sample-meta">数据集真值样例，未展示模型置信度</div>`;
+
+      return `
+        <article class="sample-card ${sampleToneClass}">
+          <div class="sample-image-wrap">
+            <span class="sample-badge">${escapeHtml(trueLabel)}</span>
+            <img src="${escapeHtml(source)}" alt="${escapeHtml(cardLabel)}" data-sample-image />
+            <div class="sample-image-fallback" hidden>图片未加载</div>
+          </div>
+          <div class="sample-copy">
+            <strong>${escapeHtml(cardLabel)}</strong>
+            <div class="sample-line">真值：${escapeHtml(trueLabel)}</div>
+            ${predictionLine}
+            ${confidenceLine}
+          </div>
+        </article>
+      `;
+    }
+
+    function initSampleImageFallbacks() {
+      document.querySelectorAll("[data-sample-image]").forEach((image) => {
+        image.addEventListener("error", () => {
+          image.hidden = true;
+          const fallback = image.parentElement?.querySelector(".sample-image-fallback");
+          if (fallback) {
+            fallback.hidden = false;
+          }
+        });
+      });
     }
 
     function formatMaybePercent(value) {
@@ -1024,12 +1697,16 @@
     }
 
     function toFiniteNumber(value) {
+      if (value === null || value === undefined || value === "") {
+        return null;
+      }
       const numeric = Number(value);
       return Number.isFinite(numeric) ? numeric : null;
     }
 
     function formatMechanism(value) {
       const mapping = {
+        ensemble: "加权集成",
         none: "无隐私",
         gaussian: "高斯隐私",
         laplace: "拉普拉斯隐私",
@@ -1039,7 +1716,8 @@
     }
 
     function formatSeconds(value) {
-      return `${Number(value || 0).toFixed(2)}s`;
+      const numeric = toFiniteNumber(value);
+      return numeric === null ? "--" : `${numeric.toFixed(2)}s`;
     }
 
     function selectedTestAccuracy(row) {
@@ -1053,7 +1731,25 @@
     function selectedConfidenceAccuracy(row) {
       return toFiniteNumber(row.test_confidence_accuracy_top30_at_best_val)
         ?? toFiniteNumber(row.test_confidence_accuracy_top50_at_best_val)
-        ?? toFiniteNumber(row.test_confidence_accuracy_ge90_at_best_val);
+        ?? toFiniteNumber(row.test_confidence_accuracy_ge90_at_best_val)
+        ?? toFiniteNumber(row.test_metrics?.confidence_accuracy_top30)
+        ?? toFiniteNumber(row.test_metrics?.confidence_accuracy_top50)
+        ?? toFiniteNumber(row.test_metrics?.confidence_accuracy_ge90)
+        ?? toFiniteNumber(row.val_metrics?.confidence_accuracy_top30);
+    }
+
+    function selectedSensitivity(row) {
+      return toFiniteNumber(row.test_sensitivity_at_best_val_mean)
+        ?? toFiniteNumber(row.test_sensitivity_at_best_val)
+        ?? toFiniteNumber(row.test_sensitivity)
+        ?? toFiniteNumber(row.test_recall_at_best_val)
+        ?? toFiniteNumber(row.test_recall);
+    }
+
+    function selectedSpecificity(row) {
+      return toFiniteNumber(row.test_specificity_at_best_val_mean)
+        ?? toFiniteNumber(row.test_specificity_at_best_val)
+        ?? toFiniteNumber(row.test_specificity);
     }
 
     function finalEpsilon(row) {
@@ -1061,6 +1757,19 @@
         ?? toFiniteNumber(row.final_cumulative_epsilon)
         ?? toFiniteNumber(row.final_mean_epsilon_mean)
         ?? toFiniteNumber(row.final_mean_epsilon);
+    }
+
+    function formatEpsilon(row) {
+      const epsilon = finalEpsilon(row);
+      if (epsilon !== null) {
+        return formatCompactNumber(epsilon);
+      }
+      const accountant = String(row.privacy_accountant || "").toLowerCase();
+      const mechanism = String(row.mechanism || "").toLowerCase();
+      if (accountant === "not_applicable" || row.privacy_enabled === false || mechanism === "none" || mechanism === "ensemble") {
+        return "不适用";
+      }
+      return "--";
     }
 
     function formatStability(row) {
@@ -1138,6 +1847,7 @@
 
     function isHighAccuracyExperiment(name) {
       return [
+        "ham10000_accuracy90_weighted_5models_sens70",
         "ham10000_highacc_centralized",
         "ham10000_highacc_convnext",
         "ham10000_literature_target"
@@ -1146,6 +1856,9 @@
 
     function drawMetricChart(data, summaryData) {
       const svg = document.getElementById("metricChart");
+      if (!svg) {
+        return;
+      }
       if (!data.length) {
         svg.innerHTML = "";
         return;
@@ -1221,41 +1934,41 @@
       const grid = accTicks.map((tick) => `
         <line x1="${padding.left}" y1="${yAcc(tick)}" x2="${plotRight}" y2="${yAcc(tick)}"
               stroke="rgba(24,33,38,0.09)" stroke-width="1" />
-        <text x="18" y="${yAcc(tick) + 4}" fill="#708089" font-size="12">${(tick * 100).toFixed(1)}%</text>
+        <text x="18" y="${yAcc(tick) + 5}" fill="#596871" font-size="15">${(tick * 100).toFixed(1)}%</text>
       `).join("");
 
       const xLabels = sampledTickIndexes(rounds.length, 8).map((index) => {
         const round = rounds[index];
         return `
         <text x="${x(round, roundMin, roundMax)}" y="${height - 18}"
-              fill="#708089" font-size="12" text-anchor="middle">R${round}</text>
+              fill="#596871" font-size="14" text-anchor="middle">R${round}</text>
       `;
       }).join("");
 
       const auxGrid = [0, 0.5, 1].map((tick) => `
         <line x1="${padding.left}" y1="${yAux(auxMax * tick, auxMax)}" x2="${plotRight}" y2="${yAux(auxMax * tick, auxMax)}"
               stroke="rgba(24,33,38,0.07)" stroke-width="1" />
-        <text x="${width - 12}" y="${yAux(auxMax * tick, auxMax) + 4}" fill="#708089" font-size="12" text-anchor="end">
+        <text x="${width - 12}" y="${yAux(auxMax * tick, auxMax) + 5}" fill="#596871" font-size="14" text-anchor="end">
           ${(auxMax * tick).toFixed(auxMax >= 100 ? 0 : 1)}
         </text>
       `).join("");
 
       const legendItems = [
-        `<line x1="0" y1="0" x2="28" y2="0" stroke="#1e5d6d" stroke-width="4" stroke-linecap="round"></line>
-         <text x="38" y="5" fill="#55636a" font-size="13" font-weight="700">验证准确率</text>`,
-        `<line x1="190" y1="0" x2="218" y2="0" stroke="#b86a4a" stroke-width="4" stroke-linecap="round"></line>
-         <text x="228" y="5" fill="#55636a" font-size="13" font-weight="700">测试准确率</text>`
+        `<line x1="0" y1="0" x2="30" y2="0" stroke="#1e5d6d" stroke-width="5" stroke-linecap="round"></line>
+         <text x="40" y="5" fill="#44515a" font-size="16" font-weight="700">验证准确率</text>`,
+        `<line x1="198" y1="0" x2="228" y2="0" stroke="#b86a4a" stroke-width="5" stroke-linecap="round"></line>
+         <text x="238" y="5" fill="#44515a" font-size="16" font-weight="700">测试准确率</text>`
       ];
 
       if (epsilonAvailable) {
         legendItems.push(
-          `<line x1="386" y1="0" x2="414" y2="0" stroke="#2f7a5e" stroke-width="4" stroke-dasharray="9 7" stroke-linecap="round"></line>
-           <text x="424" y="5" fill="#55636a" font-size="13" font-weight="700">${mechanism === "hybrid" ? "累计近似 Epsilon" : "累计 Epsilon"}</text>`
+          `<line x1="414" y1="0" x2="444" y2="0" stroke="#2f7a5e" stroke-width="5" stroke-dasharray="9 7" stroke-linecap="round"></line>
+           <text x="454" y="5" fill="#44515a" font-size="16" font-weight="700">${mechanism === "hybrid" ? "累计近似 Epsilon" : "累计 Epsilon"}</text>`
         );
       } else {
         legendItems.push(
-          `<line x1="386" y1="0" x2="414" y2="0" stroke="#2f7a5e" stroke-width="4" stroke-linecap="round"></line>
-           <text x="424" y="5" fill="#55636a" font-size="13" font-weight="700">更新范数</text>`
+          `<line x1="414" y1="0" x2="444" y2="0" stroke="#2f7a5e" stroke-width="5" stroke-linecap="round"></line>
+           <text x="454" y="5" fill="#44515a" font-size="16" font-weight="700">更新范数</text>`
         );
       }
 
@@ -1269,7 +1982,7 @@
         ? `
         <line x1="${padding.left}" y1="${yAcc(referenceBestAccuracy)}" x2="${plotRight}" y2="${yAcc(referenceBestAccuracy)}"
               stroke="rgba(184,106,74,0.42)" stroke-width="2" stroke-dasharray="8 8"></line>
-        <text x="${plotRight - 4}" y="${yAcc(referenceBestAccuracy) - 8}" fill="#9a5c43" font-size="12" text-anchor="end">超过文献 ${formatPercent(referenceBestAccuracy, 2)}</text>
+        <text x="${plotRight - 4}" y="${yAcc(referenceBestAccuracy) - 8}" fill="#8a523c" font-size="15" text-anchor="end">文献基准 ${formatPercent(referenceBestAccuracy, 2)}</text>
         `
         : "";
 
@@ -1279,12 +1992,12 @@
         ${grid}
         ${referenceTargetOverlay}
         ${auxGrid}
-        <text x="${padding.left}" y="${accTop - 14}" fill="#55636a" font-size="13" font-weight="700">准确率</text>
-        <text x="${padding.left}" y="${auxTop - 26}" fill="#55636a" font-size="13" font-weight="700">${epsilonAvailable ? "累计 Epsilon" : "更新范数"}</text>
-        <path d="${testPath}" fill="none" stroke="#b86a4a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path>
-        <path d="${valPath}" fill="none" stroke="#1e5d6d" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"></path>
-        ${epsilonAvailable ? "" : `<path d="${updatePath}" fill="none" stroke="#2f7a5e" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"></path>`}
-        ${epsilonAvailable ? `<path d="${epsilonPath}" fill="none" stroke="#2f7a5e" stroke-width="4" stroke-dasharray="9 7" stroke-linecap="round"></path>` : ""}
+        <text x="${padding.left}" y="${accTop - 14}" fill="#44515a" font-size="16" font-weight="700">准确率</text>
+        <text x="${padding.left}" y="${auxTop - 26}" fill="#44515a" font-size="16" font-weight="700">${epsilonAvailable ? "累计 Epsilon" : "更新范数"}</text>
+        <path d="${testPath}" fill="none" stroke="#b86a4a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"></path>
+        <path d="${valPath}" fill="none" stroke="#1e5d6d" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"></path>
+        ${epsilonAvailable ? "" : `<path d="${updatePath}" fill="none" stroke="#2f7a5e" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"></path>`}
+        ${epsilonAvailable ? `<path d="${epsilonPath}" fill="none" stroke="#2f7a5e" stroke-width="5" stroke-dasharray="9 7" stroke-linecap="round"></path>` : ""}
         <line x1="${padding.left}" y1="${height - 36}" x2="${plotRight}" y2="${height - 36}" stroke="rgba(24,33,38,0.12)"></line>
         ${xLabels}
       `;
@@ -1292,6 +2005,9 @@
 
     function renderAggregateSummary(mainRows, highAccRows, ablationRows) {
       const container = document.getElementById("aggregateSummaryGrid");
+      if (!container) {
+        return;
+      }
       const bestMain = [...mainRows].sort((a, b) => selectedTestAccuracy(b) - selectedTestAccuracy(a))[0];
       const bestHighAcc = [...highAccRows].sort((a, b) => selectedTestAccuracy(b) - selectedTestAccuracy(a))[0];
       const totalRows = mainRows.length + highAccRows.length + ablationRows.length;
@@ -1328,6 +2044,9 @@
 
     function renderAggregateTable(targetId, rows, showStudyType) {
       const body = document.getElementById(targetId);
+      if (!body) {
+        return;
+      }
       if (!rows.length) {
         body.innerHTML = `
           <tr>
@@ -1345,21 +2064,36 @@
           <td>${formatMaybePercent(selectedConfidenceAccuracy(row))}</td>
           <td>${formatFloat(selectedTestAuc(row))}</td>
           <td>${formatStability(row)}</td>
-          <td>${formatCompactNumber(finalEpsilon(row))}</td>
-          <td>${formatSeconds(row.avg_round_time_sec || 0)}</td>
+          <td>${formatEpsilon(row)}</td>
+          <td>${formatSeconds(row.avg_round_time_sec)}</td>
         </tr>
       `).join("");
     }
 
     function renderAttackResults(rows) {
-      const section = document.getElementById("attackSection");
+      const body = document.getElementById("attackTableBody");
       if (!rows.length) {
-        section.hidden = true;
+        const chart = document.getElementById("attackChart");
+        if (chart) {
+          chart.innerHTML = `
+            <text x="40" y="48" fill="#596871" font-size="17">暂未生成隐私攻击评估结果</text>
+            <text x="40" y="80" fill="#596871" font-size="15">请先运行 python scripts/run_attack_experiment.py</text>
+          `;
+        }
+        if (body) {
+          body.innerHTML = `
+            <tr>
+              <td colspan="5">暂未检测到攻击评估结果，请先运行攻击评估脚本。</td>
+            </tr>
+          `;
+        }
         return;
       }
-      section.hidden = false;
       drawAttackChart(rows);
-      document.getElementById("attackTableBody").innerHTML = rows.map((row) => `
+      if (!body) {
+        return;
+      }
+      body.innerHTML = rows.map((row) => `
         <tr>
           <td>${humanizeExperimentName(row.experiment_name || "")}</td>
           <td>${formatMechanism(row.mechanism || "none")}</td>
@@ -1370,36 +2104,331 @@
       `).join("");
     }
 
-      function renderParamGrid(summaryData) {
-        const params = [
-          { label: "Epoch", value: String((dashboard.history || []).length || 10) },
-          { label: "Batch Size", value: String(summaryData.batch_size || 128) },
-          { label: "Learning Rate", value: String(summaryData.learning_rate || "0.0001") },
-          { label: "Backbone", value: String(summaryData.backbone || "resnet18") },
-          { label: "Privacy", value: formatMechanism(summaryData.mechanism || "hybrid") }
-        ];
+    function renderParamGrid(summaryData) {
+      const params = [
+        { label: "Epoch", value: String((dashboard.history || []).length || 10) },
+        { label: "Batch Size", value: String(summaryData.batch_size || 128) },
+        { label: "Learning Rate", value: String(summaryData.learning_rate || "0.0001") },
+        { label: "Backbone", value: String(summaryData.backbone || "resnet18") },
+        { label: "Privacy", value: formatMechanism(summaryData.mechanism || "hybrid") }
+      ];
 
-      document.getElementById("paramGrid").innerHTML = params.map((item) => `
+      setElementHtml("paramGrid", params.map((item) => `
         <article class="param-card">
           <div class="param-label">${item.label}</div>
           <div class="param-value">${item.value}</div>
         </article>
-      `).join("");
+      `).join(""));
+    }
+
+    function normalizeDemoView(value) {
+      const raw = String(value || "").replace(/^#/, "");
+      const aliased = demoViewAliases.get(raw) || raw;
+      return demoViews.has(aliased) ? aliased : "home";
+    }
+
+    function applyDemoView(viewName) {
+      const activeView = normalizeDemoView(viewName);
+      document.querySelectorAll("[data-demo-view]").forEach((section) => {
+        section.hidden = section.getAttribute("data-demo-view") !== activeView;
+      });
+      scrollDemoTop();
+    }
+
+    function scrollDemoTop() {
+      window.scrollTo({ top: 0, behavior: "auto" });
+      window.requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: "auto" }));
+      window.setTimeout(() => window.scrollTo({ top: 0, behavior: "auto" }), 0);
+    }
+
+    function navigateDemoView(viewName, options = {}) {
+      const activeView = normalizeDemoView(viewName);
+      const method = options.replace ? "replaceState" : "pushState";
+      const nextHash = `#${activeView}`;
+      if (window.location.hash !== nextHash || options.replace) {
+        window.history[method](null, "", nextHash);
+      }
+      applyDemoView(activeView);
+    }
+
+    function initDemoNavigation() {
+      if ("scrollRestoration" in window.history) {
+        window.history.scrollRestoration = "manual";
+      }
+
+      document.addEventListener("click", (event) => {
+        const target = event.target instanceof Element ? event.target : null;
+        const link = target ? target.closest("[data-view-link]") : null;
+        if (!link) {
+          return;
+        }
+        event.preventDefault();
+        navigateDemoView(link.dataset.viewLink || link.getAttribute("href"));
+      });
+
+      window.addEventListener("popstate", () => {
+        applyDemoView(normalizeDemoView(window.location.hash));
+      });
+      window.addEventListener("hashchange", () => {
+        applyDemoView(normalizeDemoView(window.location.hash));
+      });
+      window.addEventListener("load", () => {
+        scrollDemoTop();
+      });
+
+      applyDemoView(normalizeDemoView(window.location.hash));
+    }
+
+    function setRecognitionStatus(message, kind = "") {
+      const status = document.getElementById("recognitionStatus");
+      status.textContent = message;
+      status.classList.remove("is-error", "is-success", "is-warning");
+      if (kind) {
+        status.classList.add(`is-${kind}`);
+      }
+    }
+
+    function renderRecognitionResult(payload) {
+      const result = document.getElementById("recognitionResult");
+      const label = document.getElementById("recognitionLabel");
+      const confidence = document.getElementById("recognitionConfidence");
+      const benignProbability = document.getElementById("benignProbability");
+      const malignantProbability = document.getElementById("malignantProbability");
+      const benignProbabilityBar = document.getElementById("benignProbabilityBar");
+      const malignantProbabilityBar = document.getElementById("malignantProbabilityBar");
+      const meta = document.getElementById("recognitionMeta");
+      const warning = document.getElementById("recognitionWarning");
+      const probabilities = payload.probabilities || {};
+      const benign = toFiniteNumber(probabilities.benign) ?? 0;
+      const malignant = toFiniteNumber(probabilities.malignant) ?? 0;
+      const threshold = toFiniteNumber(payload.threshold) ?? 0.74;
+      const confidenceValue = toFiniteNumber(payload.confidence) ?? Math.max(benign, malignant);
+
+      result.hidden = false;
+      label.textContent = String(payload.label_zh || payload.prediction || "--");
+      confidence.textContent = `置信度 ${formatPercent(confidenceValue)}`;
+      benignProbability.textContent = formatPercent(benign);
+      malignantProbability.textContent = formatPercent(malignant);
+      benignProbabilityBar.style.width = `${Math.max(0, Math.min(benign * 100, 100))}%`;
+      malignantProbabilityBar.style.width = `${Math.max(0, Math.min(malignant * 100, 100))}%`;
+      if (payload.demo_fallback) {
+        meta.textContent = `演示兜底 · 未调用模型 · ${String(payload.error_reason || "后端服务不可用")}`;
+      } else {
+        meta.textContent = `阈值 ${formatPercent(threshold)} · 模式 ${String(payload.model_mode || "--")}`;
+      }
+      warning.textContent = String(payload.warning || "仅用于毕业设计答辩演示，不能替代医生诊断。");
+    }
+
+    function createOfflineDemoPrediction(file, reason) {
+      const nameScore = Array.from(String(file.name || "")).reduce((total, char) => total + char.charCodeAt(0), 0);
+      const seed = nameScore + Number(file.size || 0);
+      const malignant = Math.min(0.68, Math.max(0.18, 0.22 + (seed % 42) / 100));
+      const benign = 1 - malignant;
+      const label = malignant >= benign ? "演示兜底：疑似恶性" : "演示兜底：倾向良性";
+      return {
+        label_zh: label,
+        probabilities: { benign, malignant },
+        confidence: Math.max(benign, malignant),
+        threshold: 0.74,
+        model_mode: "offline_demo",
+        demo_fallback: true,
+        error_reason: reason,
+        warning: "演示兜底结果，未调用本地模型；仅用于答辩故障兜底，不能替代医生诊断。"
+      };
+    }
+
+    async function checkRecognitionService(state) {
+      try {
+        const response = await fetch("/api/health", { cache: "no-store" });
+        if (!response.ok) {
+          throw new Error(`健康检查失败（${response.status}）`);
+        }
+        const payload = await response.json();
+        const missingModels = Array.isArray(payload.missing_models) ? payload.missing_models : [];
+        const startupError = payload.startup_error ? String(payload.startup_error) : "";
+        state.serviceReady = Boolean(payload.available) && !startupError && missingModels.length === 0;
+        if (state.serviceReady) {
+          setRecognitionStatus(
+            payload.loaded ? "模型服务已连接，模型已加载。" : "模型服务已连接，首次识别时会加载模型。",
+            "success"
+          );
+        } else {
+          const reason = startupError || (missingModels.length ? `缺少模型：${missingModels.join(", ")}` : "模型未就绪");
+          setRecognitionStatus(`模型服务未就绪：${reason}。请先启动本地服务或检查权重。`, "warning");
+        }
+      } catch (error) {
+        state.serviceReady = false;
+        const reason = error instanceof Error ? error.message : "无法连接后端服务";
+        setRecognitionStatus(`未检测到本地识别服务：${reason}。请使用 serve_demo.py 启动真实模型服务。`, "warning");
+      }
+    }
+
+    function resetRecognitionPanel() {
+      const input = document.getElementById("recognitionFile");
+      const previewImage = document.getElementById("recognitionPreviewImage");
+      const placeholder = document.getElementById("recognitionPlaceholder");
+      const label = document.getElementById("recognitionFileLabel");
+      const result = document.getElementById("recognitionResult");
+      const benignProbabilityBar = document.getElementById("benignProbabilityBar");
+      const malignantProbabilityBar = document.getElementById("malignantProbabilityBar");
+      const fallbackButton = document.getElementById("recognitionFallback");
+
+      input.value = "";
+      previewImage.hidden = true;
+      previewImage.removeAttribute("src");
+      placeholder.hidden = false;
+      label.textContent = "选择皮肤图片";
+      result.hidden = true;
+      fallbackButton.hidden = true;
+      benignProbabilityBar.style.width = "0";
+      malignantProbabilityBar.style.width = "0";
+      setRecognitionStatus("");
+    }
+
+    function initRecognitionDemo() {
+      const form = document.getElementById("recognitionForm");
+      const input = document.getElementById("recognitionFile");
+      const previewImage = document.getElementById("recognitionPreviewImage");
+      const placeholder = document.getElementById("recognitionPlaceholder");
+      const label = document.getElementById("recognitionFileLabel");
+      const submitButton = document.getElementById("recognitionSubmit");
+      const clearButton = document.getElementById("recognitionClear");
+      const fallbackButton = document.getElementById("recognitionFallback");
+      const result = document.getElementById("recognitionResult");
+      const state = {
+        objectUrl: null,
+        busy: false,
+        serviceReady: null,
+        lastFailureMessage: ""
+      };
+
+      const revokeObjectUrl = () => {
+        if (state.objectUrl) {
+          URL.revokeObjectURL(state.objectUrl);
+          state.objectUrl = null;
+        }
+      };
+
+      const showPreview = (file) => {
+        revokeObjectUrl();
+        state.objectUrl = URL.createObjectURL(file);
+        previewImage.src = state.objectUrl;
+        previewImage.hidden = false;
+        placeholder.hidden = true;
+        label.textContent = file.name;
+      };
+
+      const setBusy = (busy) => {
+        state.busy = busy;
+        submitButton.disabled = busy;
+        clearButton.disabled = busy;
+        fallbackButton.disabled = busy;
+      };
+
+      input.addEventListener("change", () => {
+        const file = input.files && input.files[0];
+        result.hidden = true;
+        fallbackButton.hidden = true;
+        state.lastFailureMessage = "";
+        if (!file) {
+          revokeObjectUrl();
+          previewImage.hidden = true;
+          previewImage.removeAttribute("src");
+          placeholder.hidden = false;
+          label.textContent = "选择皮肤图片";
+          setRecognitionStatus("");
+          return;
+        }
+        if (!String(file.type || "").startsWith("image/")) {
+          input.value = "";
+          revokeObjectUrl();
+          previewImage.hidden = true;
+          previewImage.removeAttribute("src");
+          placeholder.hidden = false;
+          label.textContent = "选择皮肤图片";
+          setRecognitionStatus("请上传图片文件。", "error");
+          return;
+        }
+        showPreview(file);
+        setRecognitionStatus(
+          state.serviceReady === false
+            ? `已选择 ${file.name}；当前未连接真实模型服务，提交会尝试真实接口，失败后可手动使用演示兜底。`
+            : `已选择 ${file.name}`,
+          state.serviceReady === false ? "warning" : ""
+        );
+      });
+
+      clearButton.addEventListener("click", () => {
+        revokeObjectUrl();
+        resetRecognitionPanel();
+      });
+
+      fallbackButton.addEventListener("click", () => {
+        const file = input.files && input.files[0];
+        if (!file) {
+          setRecognitionStatus("请选择图片后再使用演示兜底。", "error");
+          return;
+        }
+        renderRecognitionResult(createOfflineDemoPrediction(file, state.lastFailureMessage || "真实模型服务不可用"));
+        setRecognitionStatus("已显示演示兜底结果（未调用模型）。", "warning");
+      });
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const file = input.files && input.files[0];
+        if (!file) {
+          setRecognitionStatus("请选择图片后再识别。", "error");
+          return;
+        }
+
+        setBusy(true);
+        fallbackButton.hidden = true;
+        state.lastFailureMessage = "";
+        setRecognitionStatus("正在识别，请稍候...");
+        try {
+          const formData = new FormData();
+          formData.append("image", file, file.name);
+          const response = await fetch("/api/predict", {
+            method: "POST",
+            body: formData
+          });
+          const payload = await response.json().catch(() => ({}));
+          if (!response.ok) {
+            throw new Error(String(payload.detail || payload.message || `识别失败（${response.status}）`));
+          }
+          renderRecognitionResult(payload);
+          setRecognitionStatus("识别完成。", "success");
+        } catch (error) {
+          const message = error instanceof Error ? error.message : "识别失败。";
+          state.lastFailureMessage = message;
+          result.hidden = true;
+          fallbackButton.hidden = false;
+          setRecognitionStatus(`真实模型调用失败：${message}。可点击“使用演示兜底（未调用模型）”进行故障兜底。`, "error");
+        } finally {
+          setBusy(false);
+        }
+      });
+
+      resetRecognitionPanel();
+      checkRecognitionService(state);
     }
 
     function drawAggregateChart(targetId, rows, emptyLabel, options = {}) {
       const svg = document.getElementById(targetId);
+      if (!svg) {
+        return;
+      }
       if (!rows.length) {
         svg.innerHTML = `
-          <text x="40" y="48" fill="#708089" font-size="16">暂未生成${emptyLabel}结果</text>
-          <text x="40" y="78" fill="#708089" font-size="14">请先运行 python scripts/collect_experiment_results.py</text>
+          <text x="40" y="48" fill="#596871" font-size="17">暂未生成${emptyLabel}结果</text>
+          <text x="40" y="80" fill="#596871" font-size="15">请先运行 python scripts/collect_experiment_results.py</text>
         `;
         return;
       }
 
       const width = 1060;
       const height = 390;
-      const includeEpsilon = options.includeEpsilon !== false;
+      const showEpsilon = options.showEpsilon ?? true;
       const padding = { top: 86, right: 44, bottom: 104, left: 58 };
       const chartHeight = height - padding.top - padding.bottom;
       const chartWidth = width - padding.left - padding.right;
@@ -1423,7 +2452,7 @@
           { value: selectedTestAccuracy(row), color: accColor, y: yPercent(selectedTestAccuracy(row)) },
           { value: selectedTestAuc(row), color: aucColor, y: yPercent(selectedTestAuc(row)) },
         ];
-        if (includeEpsilon && eps !== null && eps > 0) {
+        if (showEpsilon && eps !== null && eps > 0) {
           metrics.push({ value: eps / maxEps, color: epsColor, y: yEps(eps) });
         }
         const barWidth = Math.min(42, (groupWidth - gap * (metrics.length - 1)) / Math.max(metrics.length + 1, 3));
@@ -1456,18 +2485,18 @@
       const grid = [0, 0.25, 0.5, 0.75, 1].map((tick) => `
         <line x1="${padding.left}" y1="${yPercent(tick)}" x2="${width - padding.right}" y2="${yPercent(tick)}"
               stroke="rgba(24,33,38,0.09)" stroke-width="1" />
-        <text x="8" y="${yPercent(tick) + 4}" fill="#708089" font-size="12">${(tick * 100).toFixed(0)}%</text>
+        <text x="8" y="${yPercent(tick) + 5}" fill="#596871" font-size="15">${(tick * 100).toFixed(0)}%</text>
       `).join("");
 
       const legend = `
         <g transform="translate(34, 24)">
           <rect x="0" y="-11" width="18" height="18" rx="5" fill="${accColor}"></rect>
-          <text x="28" y="3" fill="#55636a" font-size="14" font-weight="700">测试准确率</text>
+          <text x="28" y="4" fill="#44515a" font-size="16" font-weight="700">测试准确率</text>
           <rect x="180" y="-11" width="18" height="18" rx="5" fill="${aucColor}"></rect>
-          <text x="208" y="3" fill="#55636a" font-size="14" font-weight="700">测试 AUC</text>
-          ${includeEpsilon ? `
+          <text x="208" y="4" fill="#44515a" font-size="16" font-weight="700">测试 AUC</text>
+          ${showEpsilon ? `
           <rect x="330" y="-11" width="18" height="18" rx="5" fill="${epsColor}"></rect>
-          <text x="358" y="3" fill="#55636a" font-size="14" font-weight="700">累计 Epsilon</text>
+          <text x="358" y="4" fill="#44515a" font-size="16" font-weight="700">累计 Epsilon</text>
           ` : ""}
         </g>
       `;
@@ -1476,7 +2505,7 @@
         ? `
         <line x1="${padding.left}" y1="${yPercent(referenceBestAccuracy)}" x2="${width - padding.right}" y2="${yPercent(referenceBestAccuracy)}"
               stroke="rgba(184,106,74,0.42)" stroke-width="2" stroke-dasharray="8 8"></line>
-        <text x="${width - padding.right - 4}" y="${yPercent(referenceBestAccuracy) - 8}" fill="#9a5c43" font-size="12" text-anchor="end">超过文献 ${formatPercent(referenceBestAccuracy, 2)}</text>
+        <text x="${width - padding.right - 4}" y="${yPercent(referenceBestAccuracy) - 8}" fill="#8a523c" font-size="15" text-anchor="end">文献基准 ${formatPercent(referenceBestAccuracy, 2)}</text>
         `
         : "";
 
@@ -1492,6 +2521,9 @@
 
     function drawAblationCharts(targetId, rows) {
       const container = document.getElementById(targetId);
+      if (!container) {
+        return;
+      }
       if (!rows.length) {
         container.innerHTML = `
           <div class="mini-chart-card">
@@ -1516,12 +2548,15 @@
       `).join("");
 
       groups.forEach((group, index) => {
-        drawAggregateChart(`ablationChart${index}`, group.rows, group.title, { includeEpsilon: false });
+        drawAggregateChart(`ablationChart${index}`, group.rows, group.title, { showEpsilon: false });
       });
     }
 
     function drawAttackChart(rows) {
       const svg = document.getElementById("attackChart");
+      if (!svg) {
+        return;
+      }
       const width = 1060;
       const height = 390;
       const padding = { top: 76, right: 44, bottom: 94, left: 58 };
@@ -1533,7 +2568,7 @@
       const grid = [0, 0.25, 0.5, 0.75, 1].map((tick) => `
         <line x1="${padding.left}" y1="${y(tick)}" x2="${width - padding.right}" y2="${y(tick)}"
               stroke="rgba(24,33,38,0.09)" stroke-width="1" />
-        <text x="12" y="${y(tick) + 4}" fill="#708089" font-size="12">${(tick * 100).toFixed(0)}%</text>
+        <text x="12" y="${y(tick) + 5}" fill="#596871" font-size="15">${(tick * 100).toFixed(0)}%</text>
       `).join("");
       const bars = rows.map((row, index) => {
         const centerX = padding.left + groupWidth * index + groupWidth / 2;
@@ -1548,7 +2583,7 @@
         <rect x="0" y="0" width="${width}" height="${height}" rx="18" fill="transparent"></rect>
         <line x1="${padding.left}" y1="${y(0.5)}" x2="${width - padding.right}" y2="${y(0.5)}"
               stroke="#2f7a5e" stroke-width="2" stroke-dasharray="8 8"></line>
-        <text x="${width - padding.right - 4}" y="${y(0.5) - 8}" fill="#2f7a5e" font-size="12" text-anchor="end">随机猜测 50%</text>
+        <text x="${width - padding.right - 4}" y="${y(0.5) - 8}" fill="#2f7a5e" font-size="15" text-anchor="end">随机猜测 50%</text>
         ${grid}
         ${bars}
       `;
@@ -1558,8 +2593,8 @@
       const parts = String(label).split(/\s+|-/).filter(Boolean);
       const lines = parts.length > 1 ? parts : [String(label)];
       return `
-        <text x="${x}" y="${y}" fill="#55636a" font-size="11.5" font-weight="700" text-anchor="middle">
-          ${lines.slice(0, 3).map((line, index) => `<tspan x="${x}" dy="${index === 0 ? 0 : 14}">${line}</tspan>`).join("")}
+        <text x="${x}" y="${y}" fill="#44515a" font-size="14" font-weight="700" text-anchor="middle">
+          ${lines.slice(0, 3).map((line, index) => `<tspan x="${x}" dy="${index === 0 ? 0 : 15}">${line}</tspan>`).join("")}
         </text>
       `;
     }
@@ -1567,6 +2602,7 @@
     function humanizeExperimentName(value) {
       const mapping = {
         ham10000_centralized: "Centralized",
+        ham10000_accuracy90_weighted_5models_sens70: "Accuracy90-Weighted5",
         ham10000_highacc_centralized: "HighAcc-B3",
         ham10000_highacc_convnext: "HighAcc-ConvNeXt",
         ham10000_nodp: "No-Privacy",
@@ -1715,6 +2751,7 @@
 
     function compareHighAccuracyOrder(a, b) {
       const order = [
+        "ham10000_accuracy90_weighted_5models_sens70",
         "ham10000_literature_target",
         "ham10000_highacc_convnext",
         "ham10000_highacc_centralized"

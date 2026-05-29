@@ -1,15 +1,23 @@
 import argparse
+import base64
 import json
+import mimetypes
+import sys
 from pathlib import Path
+from typing import Any
 
 import yaml
 
 
 ROOT = Path(__file__).resolve().parents[1]
+SRC = ROOT / "src"
+if str(SRC) not in sys.path:
+    sys.path.insert(0, str(SRC))
 FRONTEND_DIR = ROOT / "frontend"
 REFERENCE_BEST_ACCURACY = 0.9068
 REFERENCE_MARGIN = 0.001
 DEFAULT_REFERENCE_TARGET = REFERENCE_BEST_ACCURACY + REFERENCE_MARGIN
+SAMPLE_SUFFIXES = {".png", ".jpg", ".jpeg", ".bmp", ".webp"}
 
 
 def resolve_output_dir(output_dir: str | None, experiment_name: str) -> Path:
@@ -46,7 +54,74 @@ def load_dataset_root(summary: dict[str, object]) -> Path | None:
     return dataset_root if dataset_root.is_absolute() else ROOT / dataset_root
 
 
-def build_samples(dataset_root: Path | None, max_samples: int) -> list[dict[str, object]]:
+def image_sample_payload(image_path: Path, class_name: str) -> dict[str, object]:
+    relative_path = image_path.relative_to(ROOT).as_posix()
+    mime_type = mimetypes.guess_type(image_path.name)[0] or "image/jpeg"
+    image_data = base64.b64encode(image_path.read_bytes()).decode("ascii")
+    return {
+        "label": f"{class_name}样例",
+        "path": f"/{relative_path}",
+        "image_data_url": f"data:{mime_type};base64,{image_data}",
+        "true_label_zh": class_name,
+    }
+
+
+def ordered_class_dirs(test_dir: Path) -> list[Path]:
+    class_dirs = [item for item in test_dir.iterdir() if item.is_dir()]
+    priority = {"benign": 0, "malignant": 1}
+    return sorted(class_dirs, key=lambda item: (priority.get(item.name.lower(), 99), item.name.lower()))
+
+
+def load_sample_predictor(sample_predictions: bool, sample_mode: str):
+    if not sample_predictions:
+        return None
+    try:
+        from fedmeddp.inference import DemoSkinPredictor
+
+        return DemoSkinPredictor(mode=sample_mode, device="auto", root=ROOT)
+    except Exception as exc:  # noqa: BLE001 - sample predictions are optional demo metadata.
+        print(f"样例真实预测不可用，回退为数据集真值样例：{exc}")
+        return None
+
+
+def build_truth_sample(image_path: Path, class_name: str) -> dict[str, object]:
+    return image_sample_payload(image_path, class_name)
+
+
+def build_predicted_sample(
+    image_path: Path,
+    class_key: str,
+    class_name: str,
+    predictor: Any,
+) -> dict[str, object] | None:
+    payload = predictor.predict_bytes(image_path.read_bytes())
+    if str(payload.get("prediction") or "").lower() != class_key.lower():
+        return None
+
+    sample = image_sample_payload(image_path, class_name)
+    probabilities = payload.get("probabilities") if isinstance(payload.get("probabilities"), dict) else {}
+    sample.update(
+        {
+            "prediction": str(payload.get("label_zh") or payload.get("prediction") or ""),
+            "confidence": float(payload.get("confidence", 0.0)),
+            "probabilities": {
+                "benign": float(probabilities.get("benign", 0.0)),
+                "malignant": float(probabilities.get("malignant", 0.0)),
+            },
+            "correct": True,
+        }
+    )
+    return sample
+
+
+def build_samples(
+    dataset_root: Path | None,
+    max_samples: int,
+    per_class: int,
+    sample_predictions: bool,
+    sample_mode: str,
+    max_scan_per_class: int = 20,
+) -> list[dict[str, object]]:
     if dataset_root is None:
         return []
 
@@ -55,21 +130,57 @@ def build_samples(dataset_root: Path | None, max_samples: int) -> list[dict[str,
         return []
 
     samples: list[dict[str, object]] = []
-    class_dirs = [item for item in sorted(test_dir.iterdir()) if item.is_dir()]
-    for class_dir in class_dirs:
+    predictor = load_sample_predictor(sample_predictions, sample_mode)
+    target_per_class = max(1, per_class)
+    max_total = max(1, max_samples)
+
+    for class_dir in ordered_class_dirs(test_dir):
+        class_name = humanize_class_name(class_dir.name)
+        class_samples: list[dict[str, object]] = []
+        candidate_images = [
+            image_path for image_path in sorted(class_dir.iterdir())
+            if image_path.suffix.lower() in SAMPLE_SUFFIXES
+        ]
+
+        if predictor is not None:
+            for image_path in candidate_images[:max_scan_per_class]:
+                try:
+                    predicted = build_predicted_sample(image_path, class_dir.name, class_name, predictor)
+                except Exception as exc:  # noqa: BLE001 - keep dashboard generation usable.
+                    print(f"样例真实预测失败，回退为数据集真值样例：{image_path.name}: {exc}")
+                    predictor = None
+                    class_samples = []
+                    break
+                if predicted is None:
+                    continue
+                class_samples.append(predicted)
+                if len(class_samples) >= target_per_class:
+                    break
+
+        if len(class_samples) < target_per_class:
+            used_paths = {str(item.get("path") or "") for item in class_samples}
+            for image_path in candidate_images:
+                relative_path = f"/{image_path.relative_to(ROOT).as_posix()}"
+                if relative_path in used_paths:
+                    continue
+                class_samples.append(build_truth_sample(image_path, class_name))
+                if len(class_samples) >= target_per_class:
+                    break
+
+        for sample in class_samples:
+            samples.append(sample)
+            if len(samples) >= max_total:
+                return samples
+
+    if samples:
+        return samples
+
+    for class_dir in ordered_class_dirs(test_dir):
+        class_name = humanize_class_name(class_dir.name)
         for image_path in sorted(class_dir.iterdir()):
-            if image_path.suffix.lower() not in {".png", ".jpg", ".jpeg", ".bmp"}:
+            if image_path.suffix.lower() not in SAMPLE_SUFFIXES:
                 continue
-            class_name = humanize_class_name(class_dir.name)
-            relative_path = image_path.relative_to(ROOT).as_posix()
-            samples.append(
-                {
-                    "label": f"{class_name}样例",
-                    "path": f"../{relative_path}",
-                    "prediction": class_name,
-                    "confidence": 0.95,
-                }
-            )
+            samples.append(build_truth_sample(image_path, class_name))
             if len(samples) >= max_samples:
                 return samples
     return samples
@@ -95,6 +206,14 @@ def load_aggregate_results(summary_json_path: Path | None) -> list[dict[str, obj
     if not isinstance(payload, list):
         return []
     return payload
+
+
+def load_single_summary(summary_json_path: Path | None) -> dict[str, object] | None:
+    if summary_json_path is None or not summary_json_path.exists():
+        return None
+    with summary_json_path.open("r", encoding="utf-8") as handle:
+        payload = json.load(handle)
+    return payload if isinstance(payload, dict) else None
 
 
 def load_attack_results(attack_json_path: Path | None) -> list[dict[str, object]]:
@@ -166,6 +285,31 @@ def main() -> None:
         help="前端最多展示多少张样例图片。",
     )
     parser.add_argument(
+        "--per-class",
+        type=int,
+        default=2,
+        help="每个类别展示多少张样例图片，默认每类 2 张。",
+    )
+    parser.add_argument(
+        "--sample-predictions",
+        dest="sample_predictions",
+        action="store_true",
+        help="显式启用模型预测样例生成；会加载本地模型权重。",
+    )
+    parser.add_argument(
+        "--no-sample-predictions",
+        dest="sample_predictions",
+        action="store_false",
+        help="不加载模型，只生成平衡的数据集真值样例（默认）。",
+    )
+    parser.set_defaults(sample_predictions=False)
+    parser.add_argument(
+        "--sample-mode",
+        choices=["single", "ensemble"],
+        default="single",
+        help="启用 --sample-predictions 时的预测模式，默认 single。",
+    )
+    parser.add_argument(
         "--summary-json",
         type=str,
         default=str(ROOT / "outputs" / "experiment_summary.json"),
@@ -175,7 +319,7 @@ def main() -> None:
         "--reference-best-accuracy",
         type=float,
         default=DEFAULT_REFERENCE_TARGET,
-        help="超过参考文献最佳准确率后的目标线，默认 0.9068 + 0.001。",
+        help="参考文献最佳准确率目标线，默认 0.9068 + 0.001。",
     )
     parser.add_argument(
         "--attack-json",
@@ -203,8 +347,22 @@ def main() -> None:
     with history_path.open("r", encoding="utf-8") as handle:
         history = json.load(handle)
     dataset_root = load_dataset_root(summary)
-    samples = build_samples(dataset_root, max_samples=args.max_samples)
+    samples = build_samples(
+        dataset_root,
+        max_samples=args.max_samples,
+        per_class=args.per_class,
+        sample_predictions=args.sample_predictions,
+        sample_mode=args.sample_mode,
+    )
     aggregate_results = load_aggregate_results(Path(args.summary_json) if args.summary_json else None)
+    accuracy90_summary = load_single_summary(
+        ROOT / "outputs" / "ham10000_accuracy90_weighted_5models_sens70" / "summary.json"
+    )
+    if accuracy90_summary:
+        extra_experiment_name = str(accuracy90_summary.get("experiment_name") or "")
+        known_experiments = {str(row.get("experiment_name") or "") for row in aggregate_results}
+        if extra_experiment_name and extra_experiment_name not in known_experiments:
+            aggregate_results.append(accuracy90_summary)
     attack_results = load_attack_results(Path(args.attack_json) if args.attack_json else None)
     multi_seed_results = load_multi_seed_results(Path(args.multi_seed_json) if args.multi_seed_json else None)
     attach_reference_target(summary, aggregate_results, target=args.reference_best_accuracy)

@@ -123,14 +123,24 @@ data/ham10000_binary/data_quality_report.json
 python scripts/make_demo_dataset.py
 python scripts/run_experiment.py --config configs/demo.yaml
 python scripts/build_dashboard_data.py --experiment-name demo_experiment
+python scripts/serve_demo.py --preload-models
+```
+
+启动后会自动选择空闲端口并打开浏览器，终端会打印实际访问地址，例如：
+
+```text
+答辩演示地址: http://127.0.0.1:8001/
+```
+
+实际端口以终端输出为准。如果不想自动打开浏览器，可加 `--no-browser`。
+
+如果只想看静态看板、不需要现场识别，也可以继续用：
+
+```bash
 python -m http.server 8000
 ```
 
-浏览器打开：
-
-```text
-http://localhost:8000/frontend/
-```
+静态服务不包含现场识别接口，答辩现场建议优先使用 `scripts/serve_demo.py`。
 
 ## 运行主实验
 
@@ -318,17 +328,37 @@ python scripts/run_multi_seed_experiments.py \
 python scripts/build_dashboard_data.py --experiment-name ham10000_literature_target
 ```
 
-启动静态服务：
+默认刷新看板时不会加载模型生成样例预测，只会写入良性/恶性各 2 张的平衡真值样例，避免把标签伪装成预测。若答辩前需要样例卡显示真实模型预测，可显式运行：
 
 ```bash
-python -m http.server 8000
+python scripts/build_dashboard_data.py --experiment-name ham10000_literature_target --sample-predictions --sample-mode single
 ```
 
-浏览器打开：
+启动答辩演示服务：
+
+```bash
+python scripts/serve_demo.py --preload-models
+```
+
+启动后会自动选择空闲端口并打开浏览器，终端会打印实际访问地址，例如：
 
 ```text
-http://localhost:8000/frontend/
+答辩演示地址: http://127.0.0.1:8001/
 ```
+
+实际端口以终端输出为准。如果不想自动打开浏览器，可加 `--no-browser`：
+
+```bash
+python scripts/serve_demo.py --preload-models --no-browser
+```
+
+如果现场机器启动五模型集成较慢，可临时切到单模型备用：
+
+```bash
+python scripts/serve_demo.py --mode single --preload-models
+```
+
+现场识别模块默认读取 `outputs/` 里的现成权重文件；如果这些文件不存在，先准备对应实验输出再启动服务。
 
 ## 从零复现推荐顺序
 
@@ -353,11 +383,13 @@ python scripts/evaluate_prediction_ensemble.py --experiments ham10000_accuracy90
 python scripts/run_ablation_experiments.py --skip-existing --collect
 python scripts/run_attack_experiment.py --experiments ham10000_nodp ham10000_gaussian ham10000_hybrid ham10000_hybrid_adaptive
 
-# 6. 刷新汇总和前端
+# 6. 刷新汇总并启动答辩演示
 python scripts/collect_experiment_results.py --target-accuracy 0.80
 python scripts/run_multi_seed_experiments.py --config configs/ham10000_literature_target.yaml --seeds 2026 2027 2028 --collect-only
 python scripts/build_dashboard_data.py --experiment-name ham10000_literature_target
-python -m http.server 8000
+# 可选：需要样例卡显示真实模型预测时，改用下面这一行刷新看板数据
+# python scripts/build_dashboard_data.py --experiment-name ham10000_literature_target --sample-predictions --sample-mode single
+python scripts/serve_demo.py --preload-models
 ```
 
 ## 结果口径
