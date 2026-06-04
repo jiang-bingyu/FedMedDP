@@ -1070,6 +1070,7 @@
         </div>
       </div>
       <div class="top-actions">
+        <button class="ghost-action" id="chartExportButton" type="button">导出全部图表</button>
         <div class="status-pill">本科毕设答辩演示页</div>
       </div>
     </div>
@@ -1548,6 +1549,7 @@
     renderSafely("攻击评估", () => renderAttackResults(attackResults));
     renderSafely("参数配置", () => renderParamGrid(summary));
     renderSafely("现场识别初始化", () => initRecognitionDemo());
+    renderSafely("图表导出初始化", () => initChartExportButton());
 
     function formatPercent(value, digits = 1) {
       return `${(Number(value) * 100).toFixed(digits)}%`;
@@ -2432,6 +2434,133 @@
       resetRecognitionPanel();
       checkRecognitionService(state);
     }
+
+    function initChartExportButton() {
+      const button = document.getElementById("chartExportButton");
+      if (!button) {
+        return;
+      }
+      button.addEventListener("click", async () => {
+        const originalText = button.textContent;
+        button.disabled = true;
+        button.textContent = "正在导出...";
+        try {
+          const count = await exportDashboardCharts();
+          button.textContent = `已导出 ${count} 张`;
+          setTimeout(() => {
+            button.textContent = originalText;
+          }, 2400);
+        } catch (error) {
+          console.error("导出图表失败", error);
+          button.textContent = "导出失败";
+          alert(`导出图表失败：${error instanceof Error ? error.message : "未知错误"}`);
+          setTimeout(() => {
+            button.textContent = originalText;
+          }, 2400);
+        } finally {
+          button.disabled = false;
+        }
+      });
+    }
+
+    function collectExportableCharts() {
+      const fixedCharts = [
+        ["01_训练趋势图", document.querySelector("#metricChart")],
+        ["02_成员推断攻击", document.querySelector("#attackChart")],
+        ["03_主实验图", document.querySelector("#mainAggregateChart")],
+        ["04_高精度图", document.querySelector("#highAccAggregateChart")]
+      ];
+      const ablationCharts = [...document.querySelectorAll("#ablationCharts .mini-chart-card")]
+        .map((card, index) => {
+          const title = card.querySelector(".mini-chart-head h3")?.textContent?.trim() || `消融图_${index + 1}`;
+          return [`${String(index + 5).padStart(2, "0")}_消融图_${title}`, card.querySelector("svg")];
+        });
+      return [...fixedCharts, ...ablationCharts].filter(([, svg]) => svg);
+    }
+
+    function sanitizeExportFilename(value) {
+      return String(value)
+        .replace(/[\\/:*?"<>|]+/g, "_")
+        .replace(/\s+/g, "_")
+        .replace(/_+/g, "_")
+        .replace(/^_+|_+$/g, "");
+    }
+
+    function chartSize(svg) {
+      const viewBox = svg.viewBox?.baseVal;
+      return {
+        width: viewBox?.width || svg.clientWidth || Number(svg.getAttribute("width")) || 1060,
+        height: viewBox?.height || svg.clientHeight || Number(svg.getAttribute("height")) || 390
+      };
+    }
+
+    async function svgToPngBlob(svg, scale = 3) {
+      const { width, height } = chartSize(svg);
+      const clone = svg.cloneNode(true);
+      clone.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+      clone.setAttribute("width", String(width));
+      clone.setAttribute("height", String(height));
+      clone.setAttribute("font-family", "\"Segoe UI\", \"Microsoft YaHei\", \"PingFang SC\", Arial, sans-serif");
+
+      const xml = new XMLSerializer().serializeToString(clone);
+      const url = URL.createObjectURL(new Blob([xml], { type: "image/svg+xml;charset=utf-8" }));
+      try {
+        const image = new Image();
+        image.src = url;
+        await image.decode();
+
+        const canvas = document.createElement("canvas");
+        canvas.width = Math.ceil(width * scale);
+        canvas.height = Math.ceil(height * scale);
+        const context = canvas.getContext("2d");
+        context.fillStyle = "#ffffff";
+        context.fillRect(0, 0, canvas.width, canvas.height);
+        context.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+        const blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/png"));
+        if (!blob) {
+          throw new Error("浏览器未能生成 PNG Blob。");
+        }
+        return blob;
+      } finally {
+        URL.revokeObjectURL(url);
+      }
+    }
+
+    function downloadBlob(blob, filename) {
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    }
+
+    function sleep(ms) {
+      return new Promise((resolve) => setTimeout(resolve, ms));
+    }
+
+    async function exportDashboardCharts(options = {}) {
+      const charts = collectExportableCharts();
+      if (!charts.length) {
+        throw new Error("未找到可导出的图表，请确认页面数据已加载。");
+      }
+      const scale = options.scale || 3;
+      for (const [name, svg] of charts) {
+        const blob = await svgToPngBlob(svg, scale);
+        downloadBlob(blob, `${sanitizeExportFilename(name)}.png`);
+        await sleep(options.delayMs ?? 350);
+      }
+      if (charts.length < 9) {
+        console.warn(`当前只找到 ${charts.length} 张图表，正常完整页面应为 9 张。`, charts.map(([name]) => name));
+      }
+      return charts.length;
+    }
+
+    window.exportDashboardCharts = exportDashboardCharts;
+    window.collectExportableCharts = collectExportableCharts;
 
     function drawAggregateChart(targetId, rows, emptyLabel, options = {}) {
       const svg = document.getElementById(targetId);
