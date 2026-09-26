@@ -1,0 +1,25 @@
+[
+  {
+    "round":1,
+    "decision_threshold":0.74,
+    "val_accuracy":0.9023162135,
+    "val_precision":0.8397707186,
+    "val_recall":0.8465904604,
+    "val_f1":0.8431123758,
+    "val_auc":0.9441943721,
+    "val_balanced_accuracy":0.8465904604,
+    "val_sensitivity":0.7566137566,
+    "val_specificity":0.9365671642,
+    "test_accuracy":0.9057171515,
+    "test_precision":0.8587373618,
+    "test_recall":0.8424054351,
+    "test_f1":0.8501854339,
+    "test_auc":0.9417172929,
+    "test_balanced_accuracy":0.8424054351,
+    "test_sensitivity":0.736318408,
+    "test_specificity":0.9484924623,
+    "round_time_sec":0.0,
+    "round_communication_mb":0.0,
+    "cumulative_communication_mb":0.0
+  }
+]

@@ -44,8 +44,11 @@ outputs/**/final_model.pt
 outputs/**/best_model.pt
 outputs/**/*.npz
 
-# Generated high-accuracy experiment outputs
-outputs/ham10000_accuracy90*/
+# Small prediction archives used to reproduce the high-accuracy ensemble
+!outputs/ham10000_accuracy90*/val_predictions_best.npz
+!outputs/ham10000_accuracy90*/test_predictions_best.npz
+!outputs/ham10000_accuracy90*/val_predictions_ensemble.npz
+!outputs/ham10000_accuracy90*/test_predictions_ensemble.npz
 
 # Temporary notebooks and logs
 .ipynb_checkpoints/

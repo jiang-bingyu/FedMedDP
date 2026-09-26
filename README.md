@@ -279,6 +279,8 @@ Threshold:    0.7400
 
 判断是否真正超过 90%，应看完整测试集 `test_accuracy_at_best_val > 0.9000`，同时确认 `test_sensitivity_at_best_val` 不低于主实验水平，避免只靠偏向 benign 类别获得虚高 Accuracy。等权 6 模型集成不一定优于加权集成，本文最终高精度上限结果以 `ham10000_accuracy90_weighted_5models_sens70` 为准。
 
+仓库已保留高精度实验的结果汇总、训练记录、曲线图和验证集/测试集预测概率（`.npz`）。安装依赖后，可直接运行上面的加权集成命令复核结果，无需重新训练或下载原始图片；对新图片进行现场识别仍需要对应的模型权重。
+
 ## 运行消融实验
 
 已有实验组：
@@ -358,7 +360,16 @@ python scripts/serve_demo.py --preload-models --no-browser
 python scripts/serve_demo.py --mode single --preload-models
 ```
 
-现场识别模块默认读取 `outputs/` 里的现成权重文件；如果这些文件不存在，先准备对应实验输出再启动服务。
+现场识别模块默认读取 `outputs/` 里的现成权重文件。已训练好的五模型权重可从 [答辩演示模型 Release](https://github.com/jiang-bingyu/FedMedDP/releases/tag/demo-models-v1) 下载 `fedmeddp-demo-models.zip`（约 823 MiB），单模型备用模式也使用其中的 seed2030 权重。
+
+将压缩包放到项目根目录后解压，包内路径会还原到对应的 `outputs/<experiment_name>/best_model.pt`：
+
+```bash
+python -m zipfile -e fedmeddp-demo-models.zip .
+python scripts/serve_demo.py --preload-models
+```
+
+Release 同时提供压缩包的 SHA-256 校验文件，各模型文件的校验值见 `docs/demo-models.sha256`。模型包用于现场识别，不包含原始数据集或主实验攻击评估所需的 `final_model.pt`；主实验仍按上面的流程复现。
 
 ## 从零复现推荐顺序
 
@@ -413,4 +424,4 @@ outputs/attack_summary.json
 
 - `prepare_ham10000.py` 会重建目标数据目录，运行前请确认 `--dst` 指向的是可覆盖的数据集输出目录。
 - 当前隐私预算是客户端更新级扰动下的近似分析。Gaussian 机制显示近似 epsilon，Hybrid 显示 Gaussian 部分近似 epsilon，Laplace 未实现严格 epsilon 会计。
-- `final_model.pt` 和 HAM10000 图像体积较大，建议通过网盘、Release 或实验环境单独管理，不建议直接提交到 GitHub。
+- 模型权重和 HAM10000 图像体积较大，单独管理；现场识别使用的 `best_model.pt` 已提供上述 Release 下载。
