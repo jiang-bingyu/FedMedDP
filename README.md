@@ -360,16 +360,17 @@ python scripts/serve_demo.py --preload-models --no-browser
 python scripts/serve_demo.py --mode single --preload-models
 ```
 
-现场识别模块默认读取 `outputs/` 里的现成权重文件。已训练好的五模型权重可从 [答辩演示模型 Release](https://github.com/jiang-bingyu/FedMedDP/releases/tag/demo-models-v1) 下载 `fedmeddp-demo-models.zip`（约 823 MiB），单模型备用模式也使用其中的 seed2030 权重。
+现场识别模块默认读取 `outputs/` 里的现成权重文件。已训练好的五模型权重保存在 [答辩演示模型 Release](https://github.com/jiang-bingyu/FedMedDP/releases/tag/demo-models-v1)，总计约 823 MiB，采用每卷至多 32 MiB 的分卷形式。单模型备用模式也使用其中的 seed2030 权重。
 
-将压缩包放到项目根目录后解压，包内路径会还原到对应的 `outputs/<experiment_name>/best_model.pt`：
+在项目根目录运行以下命令，下载脚本会自动获取分卷、验证 SHA-256 并合并为 `fedmeddp-demo-models.zip`；解压后会还原对应的 `outputs/<experiment_name>/best_model.pt`：
 
 ```bash
+python scripts/download_demo_models.py
 python -m zipfile -e fedmeddp-demo-models.zip .
 python scripts/serve_demo.py --preload-models
 ```
 
-Release 同时提供压缩包的 SHA-256 校验文件，各模型文件的校验值见 `docs/demo-models.sha256`。模型包用于现场识别，不包含原始数据集或主实验攻击评估所需的 `final_model.pt`；主实验仍按上面的流程复现。
+分卷和完整压缩包的校验值见 `docs/demo-models-parts.json`，各模型文件的校验值见 `docs/demo-models.sha256`。模型包用于现场识别，不包含原始数据集或主实验攻击评估所需的 `final_model.pt`；主实验仍按上面的流程复现。
 
 ## 从零复现推荐顺序
 

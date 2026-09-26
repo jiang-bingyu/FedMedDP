@@ -43,6 +43,8 @@ data/demo_medical/
 outputs/**/final_model.pt
 outputs/**/best_model.pt
 outputs/**/*.npz
+/fedmeddp-demo-models.zip
+/fedmeddp-demo-models.zip.sha256
 
 # Small prediction archives used to reproduce the high-accuracy ensemble
 !outputs/ham10000_accuracy90*/val_predictions_best.npz

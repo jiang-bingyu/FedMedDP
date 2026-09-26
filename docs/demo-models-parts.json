@@ -1,0 +1,138 @@
+{
+  "release_tag": "demo-models-v1",
+  "archive_name": "fedmeddp-demo-models.zip",
+  "archive_size": 862648748,
+  "archive_sha256": "b5f387b080c8def2830ea20af6c3d65265acd8cc18b674885d57b4ca49cd612e",
+  "parts": [
+    {
+      "name": "fedmeddp-demo-models.zip.001",
+      "size": 33554432,
+      "sha256": "90931b17830a1d6b42102bc943f4c560691bc807ae1e55536652f91c18fbf73b"
+    },
+    {
+      "name": "fedmeddp-demo-models.zip.002",
+      "size": 33554432,
+      "sha256": "2ceaa802b71042106da1f322f34eea6221a23da4c6a62d0b6a7cd82eb63c4a6c"
+    },
+    {
+      "name": "fedmeddp-demo-models.zip.003",
+      "size": 33554432,
+      "sha256": "bed5864c2d397750857891a67ffad3b2d9dd2e4b04a0ddd15bac9bc1820965bb"
+    },
+    {
+      "name": "fedmeddp-demo-models.zip.004",
+      "size": 33554432,
+      "sha256": "323f449c77c674909df7f5b70f6bbb63210c87948607e89c25e324dcb9306ea0"
+    },
+    {
+      "name": "fedmeddp-demo-models.zip.005",
+      "size": 33554432,
+      "sha256": "f685bc0857e5779b35a62190c6530e8828d2e28f2b295c2136b0ffbd5e75d93e"
+    },
+    {
+      "name": "fedmeddp-demo-models.zip.006",
+      "size": 33554432,
+      "sha256": "56a13603864bd8e0803d4035bb01f63d8f51f440ed4932dbc18466b572e40799"
+    },
+    {
+      "name": "fedmeddp-demo-models.zip.007",
+      "size": 33554432,
+      "sha256": "07a29f91774f2698e1357d0709e8d72dd8a7fb7ba4144ee18d7e6dd6f76163ab"
+    },
+    {
+      "name": "fedmeddp-demo-models.zip.008",
+      "size": 33554432,
+      "sha256": "f94f32204d7997d8dad1270b123a385a35f964257249c9f4e4869f2e72334fcf"
+    },
+    {
+      "name": "fedmeddp-demo-models.zip.009",
+      "size": 33554432,
+      "sha256": "61cae490ebadfc6f3bfec5712b249bbfb3c55bc3d3a8478fa7bd13e5f0526a49"
+    },
+    {
+      "name": "fedmeddp-demo-models.zip.010",
+      "size": 33554432,
+      "sha256": "9807f9fce8d21c038fa108e6afad5c6fdf59040d3c99035f65b40b6413922256"
+    },
+    {
+      "name": "fedmeddp-demo-models.zip.011",
+      "size": 33554432,
+      "sha256": "88f37872902da31ed8f3c82b39aec5d5dd100f925a73bdbb3988a8c11f85d2c6"
+    },
+    {
+      "name": "fedmeddp-demo-models.zip.012",
+      "size": 33554432,
+      "sha256": "2258b995056d6aa6381bb89d4e792536353e231e7c72524a791c8c05cd3fcb37"
+    },
+    {
+      "name": "fedmeddp-demo-models.zip.013",
+      "size": 33554432,
+      "sha256": "046bdf2cdecc1b6fe900ae0f6b248c3d51dabe1ec0e757d54ce44baa65d7825f"
+    },
+    {
+      "name": "fedmeddp-demo-models.zip.014",
+      "size": 33554432,
+      "sha256": "0568d3faf8c677c54a3bc79d9b61b38481642b8e5f06976365934ab85790351e"
+    },
+    {
+      "name": "fedmeddp-demo-models.zip.015",
+      "size": 33554432,
+      "sha256": "070a903b66c91380057006b32dc5d9a4004c14097030542e837e92995f0b029c"
+    },
+    {
+      "name": "fedmeddp-demo-models.zip.016",
+      "size": 33554432,
+      "sha256": "5ce18afc9489a046a9e9ce5783fce6a4ed3fa1342471a8f0ab7cb0a9abee7983"
+    },
+    {
+      "name": "fedmeddp-demo-models.zip.017",
+      "size": 33554432,
+      "sha256": "4569700f77bcc12fa63ae23bdc07e935dee178ff543292b8a0f6f2405bd5cc3c"
+    },
+    {
+      "name": "fedmeddp-demo-models.zip.018",
+      "size": 33554432,
+      "sha256": "435f250a07256ef2d419a3fc6b2b37c2780caf84c8a8d9627299a1bf3e268e87"
+    },
+    {
+      "name": "fedmeddp-demo-models.zip.019",
+      "size": 33554432,
+      "sha256": "6bfb425098621fa4a848b3eda97fcb3939853877b1fdba3ec5533e5954fe3fb2"
+    },
+    {
+      "name": "fedmeddp-demo-models.zip.020",
+      "size": 33554432,
+      "sha256": "de8b4ef12e883912e0fb68f4f38467011ed9ac58f3ae5cd31fca82c5453f9358"
+    },
+    {
+      "name": "fedmeddp-demo-models.zip.021",
+      "size": 33554432,
+      "sha256": "80867ce01daf729f495f02d9a610624fd191229d86f779952686136d01302b76"
+    },
+    {
+      "name": "fedmeddp-demo-models.zip.022",
+      "size": 33554432,
+      "sha256": "00ea7ef668e07dc7d11791bfdb1b9fce1e1a389d0a0125fae597a7da0ad5ee97"
+    },
+    {
+      "name": "fedmeddp-demo-models.zip.023",
+      "size": 33554432,
+      "sha256": "148445223473f7e45a5a9ee03e0e4800ce13f34426e8b3b08481020e98a93921"
+    },
+    {
+      "name": "fedmeddp-demo-models.zip.024",
+      "size": 33554432,
+      "sha256": "15c7e2a5c824be6233048652c4293f582595e56f3cc564b158ca7df1f31d6105"
+    },
+    {
+      "name": "fedmeddp-demo-models.zip.025",
+      "size": 33554432,
+      "sha256": "44f5ac6594740803e66e27ca8c1d6e4318a78076da8a04b8857e07a47d794d04"
+    },
+    {
+      "name": "fedmeddp-demo-models.zip.026",
+      "size": 23787948,
+      "sha256": "9849c8ad6c30ecba16b6220f89e48bceaa63349c87da948bacaec925bb03ec06"
+    }
+  ]
+}
